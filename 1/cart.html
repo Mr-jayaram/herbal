@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Shopping Cart - NatureHeals</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <style>
+        /* --- STYLES SPECIFIC TO CART.HTML --- */
+
+        .cart-section {
+            padding: 12rem 5% 6rem; /* Start content below fixed nav */
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        /* Section header is already in common.css */
+
+        .cart-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 3rem;
+            align-items: flex-start;
+        }
+
+        .cart-items-wrapper {
+            background: var(--white);
+             border-radius: 25px;
+             border: 1px solid var(--soft-green);
+            padding: 20px;
+            overflow-x: auto; /* For small screen table responsiveness */
+        }
+
+        .cart-items-table {
+            width: 100%;
+            min-width: 600px; /* Ensures table doesn't get too cramped */
+            border-collapse: collapse;
+            
+        }
+
+        .cart-items-table thead tr {
+            border-bottom: 2px solid var(--soft-green);
+        }
+
+        .cart-items-table th {
+            text-align: left;
+            padding: 1rem 1rem 1.5rem;
+            color: var(--primary-green);
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .cart-items-table td {
+            padding: 1.5rem 1rem;
+            vertical-align: middle;
+            border-bottom: 1px solid var(--soft-green);
+        }
+
+        .cart-product-info {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            white-space: normal; /* Allow text wrap */
+        }
+        
+        .product-image-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--soft-green);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: var(--accent-green);
+            flex-shrink: 0;
+            border: 1px solid rgba(82, 183, 136, 0.1);
+        }
+
+        .product-details h4 {
+            font-size: 1.1rem;
+            color: var(--dark);
+            font-weight: 600;
+            margin-bottom: 0.2rem;
+        }
+
+        .product-details span {
+            font-size: 0.9rem;
+            color: var(--gray);
+            text-transform: capitalize;
+        }
+        
+        .item-price,
+        .line-total {
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 1.1rem;
+            white-space: nowrap;
+        }
+
+        /* Quantity Selector Styles */
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .quantity-selector button {
+            width: 40px;
+            height: 40px;
+            border: 2px solid var(--soft-green);
+            background: var(--white);
+            border-radius: 50%;
+            font-size: 1.1rem;
+            color: var(--primary-green);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .quantity-selector button:hover {
+            background: var(--soft-green);
+            border-color: var(--accent-green);
+        }
+        .quantity-selector input {
+            width: 50px;
+            height: 40px;
+            text-align: center;
+            border: 2px solid var(--soft-green);
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--dark);
+            font-family: 'Poppins', sans-serif;
+            -moz-appearance: textfield;
+        }
+        .quantity-selector input::-webkit-outer-spin-button,
+        .quantity-selector input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        
+        .remove-item-btn {
+            background: none;
+            border: none;
+            color: red;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: color 0.3s;
+            padding: 0.5rem;
+        }
+        .remove-item-btn:hover {
+            color: #ff6b6b; /* Red on hover */
+        }
+        td.col-remove {
+            text-align: center;
+        }
+
+        /* Cart Summary Box */
+        .cart-summary {
+            background: var(--white);
+            border-radius: 25px;
+            padding: 2.5rem;
+            border: 1px solid var(--soft-green);
+            box-shadow: 0 15px 40px var(--shadow-light);
+            position: sticky;
+            top: 120px; /* 80px nav + 40px gap */
+        }
+        .cart-summary h3 {
+            font-size: 1.8rem;
+            color: var(--primary-green);
+            margin-bottom: 2rem;
+            border-bottom: 2px solid var(--soft-green);
+            padding-bottom: 1rem;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+        .summary-row span {
+            color: var(--gray);
+            font-weight: 400;
+        }
+        .summary-row strong {
+            color: var(--dark);
+            font-weight: 600;
+        }
+        
+        .summary-total {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid var(--soft-green);
+        }
+        
+        .cart-summary .btn {
+            width: 100%;
+            margin-top: 1rem;
+            padding: 1.2rem;
+        }
+        .cart-summary .btn-secondary {
+            text-align: center;
+            border-color: var(--soft-green);
+        }
+        .cart-summary .btn-secondary:hover {
+            border-color: var(--primary-green);
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .cart-section {
+                padding-top: 10rem;
+            }
+            .cart-container {
+                grid-template-columns: 1fr;
+            }
+            .cart-summary {
+                position: static; /* Un-stick the summary box */
+                margin-top: 2rem;
+            }
+        }
+        
+      
+    </style>
+</head>
+<body>
+   <nav id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-leaf"></i>
+                NatureHeals
+            </a>
+            
+            <div class="nav-menu" id="nav-menu">
+                
+                <div class="nav-icons">
+                    <i class="fas fa-search" role="button" aria-label="Search"></i>
+                    
+                    <div class="nav-icon-item profile-dropdown-container">
+                        <i class="fas fa-user" id="profile-icon" role="button" aria-label="User account" aria-haspopup="true" aria-expanded="false" tabindex="0"></i> 
+                        
+                        <div class="profile-dropdown-menu" id="profile-dropdown">
+                            <a href="orders.html"><i class="fas fa-clipboard-list"></i> Order List</a>
+                            <a href="wishlist.html"><i class="fas fa-heart"></i> Wishlist</a>
+                            <a href="settings.html"><i class="fas fa-gear"></i> Settings</a>
+                        </div>
+                    </div>
+                    <a href="cart.html">
+                    <i class="fas fa-shopping-cart" style="position: relative;" role="button" aria-label="Shopping cart with 3 items">
+                        <span class="cart-badge">3</span>
+                    </i>
+                    </a>
+                    <p>Jai</p>
+                </div>
+            </div>
+            
+            <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+    <div class="menu-overlay" id="menu-overlay"></div>
+
+    <main>
+        <section class="cart-section">
+            <div class="section-header reveal">
+                <p class="section-subtitle">Review Your Order</p>
+                <h2 class="section-title">Your Shopping Cart</h2>
+            </div>
+
+            <div class="cart-container">
+                
+                <div class="cart-items-wrapper reveal">
+                    <table class="cart-items-table bg-white">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Total</th>
+                                <th class="col-remove">Remove</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="cart-item-row">
+                                <td data-label="Product">
+                                    <div class="cart-product-info">
+                                        <div class="product-image-icon">
+                                            <i class="fas fa-mortar-pestle"></i>
+                                        </div>
+                                        <div class="product-details">
+                                            <h4>Turmeric Complex</h4>
+                                            <span>Immunity</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td data-label="Price">
+                                    <span class="item-price" data-price="24.99">$24.99</span>
+                                </td>
+                                <td data-label="Quantity">
+                                    <div class="quantity-selector">
+                                        <button class="quantity-btn decrease-qty" aria-label="Decrease quantity">-</button>
+                                        <input type="number" class="quantity-input" value="1" min="1" readonly>
+                                        <button class="quantity-btn increase-qty" aria-label="Increase quantity">+</button>
+                                    </div>
+                                </td>
+                                <td data-label="Total">
+                                    <span class="line-total">$24.99</span>
+                                </td>
+                                <td data-label="Remove" class="col-remove">
+                                    <button class="remove-item-btn" aria-label="Remove item">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            
+                            <tr class="cart-item-row">
+                                <td data-label="Product">
+                                    <div class="cart-product-info">
+                                        <div class="product-image-icon">
+                                            <i class="fas fa-cannabis"></i>
+                                        </div>
+                                        <div class="product-details">
+                                            <h4>Ashwagandha Blend</h4>
+                                            <span>Wellness</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td data-label="Price">
+                                    <span class="item-price" data-price="29.99">$29.99</span>
+                                </td>
+                                <td data-label="Quantity">
+                                    <div class="quantity-selector">
+                                        <button class="quantity-btn decrease-qty" aria-label="Decrease quantity">-</button>
+                                        <input type="number" class="quantity-input" value="2" min="1" readonly>
+                                        <button class="quantity-btn increase-qty" aria-label="Increase quantity">+</button>
+                                    </div>
+                                </td>
+                                <td data-label="Total">
+                                    <span class="line-total">$59.98</span>
+                                </td>
+                                <td data-label="Remove" class="col-remove">
+                                    <button class="remove-item-btn" aria-label="Remove item">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            
+                            <tr class="cart-item-row">
+                                <td data-label="Product">
+                                    <div class="cart-product-info">
+                                        <div class="product-image-icon">
+                                            <i class="fas fa-seedling"></i>
+                                        </div>
+                                        <div class="product-details">
+                                            <h4>Ginger Root Extract</h4>
+                                            <span>Digestive Health</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td data-label="Price">
+                                    <span class="item-price" data-price="19.99">$19.99</span>
+                                </td>
+                                <td data-label="Quantity">
+                                    <div class="quantity-selector">
+                                        <button class="quantity-btn decrease-qty" aria-label="Decrease quantity">-</button>
+                                        <input type="number" class="quantity-input" value="1" min="1" readonly>
+                                        <button class="quantity-btn increase-qty" aria-label="Increase quantity">+</button>
+                                    </div>
+                                </td>
+                                <td data-label="Total">
+                                    <span class="line-total">$19.99</span>
+                                </td>
+                                <td data-label="Remove" class="col-remove">
+                                    <button class="remove-item-btn" aria-label="Remove item">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="cart-summary reveal">
+                    <h3>Order Summary</h3>
+                    
+                    <div class="summary-row">
+                        <span>Subtotal</span>
+                        <strong id="summary-subtotal">$104.96</strong>
+                    </div>
+                    
+                    <div class="summary-row">
+                        <span>Shipping</span>
+                        <strong>FREE</strong>
+                    </div>
+
+                    <div class="summary-row summary-total">
+                        <span>Total</span>
+                        <strong id="summary-final-total">$104.96</strong>
+                    </div>
+
+                    <a href="checkout.html" class="btn btn-primary">
+                        <span>Proceed to Checkout</span>
+                        <i class="fas fa-lock"></i>
+                    </a>
+                    <a href="index.html#process" class="btn btn-secondary">
+                        <span>Continue Shopping</span>
+                    </a>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>About NatureHeals</h3>
+                <p>We believe in the power of nature to heal and restore. Our mission is to provide premium organic herbal products that enhance your wellbeing naturally.</p>
+                <div class="social-icons">
+                    <a href="#" class="fab fa-facebook" aria-label="Facebook"></a>
+                    <a href="#" class="fab fa-instagram" aria-label="Instagram"></a>
+                    <a href="#" class="fab fa-twitter" aria-label="Twitter"></a>
+                    <a href="#" class="fab fa-youtube" aria-label="Youtube"></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html#products">Shop Products</a></li>
+                    <li><a href="index.html#about">About Us</a></li>
+                    <li><a href="index.html#blog">Health Blog</a></li>
+                    <li><a href="index.html#contact">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Customer Care</h3>
+                <ul>
+                    <li><a href="#">Shipping Policy</a></li>
+                    <li><a href="#">Return Policy</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms & Conditions</a></li>
+                </ul>
+            </div>
+            <div class="footer-section contact-info" id="contact">
+                <h3>Contact Us</h3>
+                <ul>
+                    <li>
+                        <i class="fas fa-map-marker-alt"></i> 
+                        <span>123 Wellness Street, Nature City</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-phone"></i>
+                        <span>+1 (555) 123-4567</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-envelope"></i>
+                        <span>info@natureheals.com</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 NatureHeals. All rights reserved. Made with <i class="fas fa-heart" style="color: var(--accent-green);"></i> for your wellness journey</p>
+        </div>
+    </footer>
+
+    <button class="scroll-to-top" id="scrollToTopBtn" aria-label="Scroll to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script src="assets/js/script.js"></script>
+
+    <script>
+        // --- SHARED JS (NAV, SCROLL, REVEAL) ---
+
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const targetId = this.getAttribute('href');
+                
+                // Check if it's a link to another page's anchor
+                if(targetId.startsWith("index.html#")) {
+                    window.location.href = targetId;
+                    e.preventDefault();
+                    return;
+                }
+
+                const target = document.querySelector(targetId);
+                
+                if (target) {
+                    e.preventDefault(); // Only prevent default if it's a same-page anchor
+                    const headerOffset = document.getElementById('navbar').offsetHeight + 20;
+                    const elementPosition = target.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                    
+                    if (navMenu.classList.contains('active')) {
+                        closeMobileMenu();
+                    }
+                }
+            });
+        });
+        
+        // Mobile Navigation Toggle
+        const navToggle = document.getElementById('nav-toggle');
+        const navMenu = document.getElementById('nav-menu');
+        const menuOverlay = document.getElementById('menu-overlay');
+
+        function openMobileMenu() {
+            navMenu.classList.add('active');
+            navToggle.classList.add('active');
+            navToggle.setAttribute('aria-expanded', 'true');
+            menuOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMobileMenu() {
+            navMenu.classList.remove('active');
+            navToggle.classList.remove('active');
+            navToggle.setAttribute('aria-expanded', 'false');
+            menuOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        if (navToggle && navMenu && menuOverlay) {
+            navToggle.addEventListener('click', () => {
+                if (navMenu.classList.contains('active')) {
+                    closeMobileMenu();
+                } else {
+                    openMobileMenu();
+                }
+            });
+            
+            menuOverlay.addEventListener('click', closeMobileMenu);
+        }
+        
+        // Scroll to Top Button
+        const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                scrollToTopBtn.classList.add('visible');
+            } else {
+                scrollToTopBtn.classList.remove('visible');
+            }
+        });
+
+        scrollToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // On-Scroll Reveal Animation Logic
+        const revealElements = document.querySelectorAll('.reveal');
+
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        revealElements.forEach(el => {
+            revealObserver.observe(el);
+        });
+
+        // --- PAGE-SPECIFIC JS (CART PAGE) ---
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const cartTable = document.querySelector('.cart-items-table');
+            if (!cartTable) return; // Only run this code on the cart page
+
+            const subtotalEl = document.getElementById('summary-subtotal');
+            const totalEl = document.getElementById('summary-final-total');
+
+            // Function to update the total for a single line item
+            function updateLineTotal(row) {
+                const priceEl = row.querySelector('.item-price');
+                const quantityInput = row.querySelector('.quantity-input');
+                const lineTotalEl = row.querySelector('.line-total');
+
+                const price = parseFloat(priceEl.dataset.price);
+                const quantity = parseInt(quantityInput.value);
+                const lineTotal = price * quantity;
+
+                lineTotalEl.textContent = `$${lineTotal.toFixed(2)}`;
+                updateCartTotals();
+            }
+
+            // Function to update the final cart totals
+            function updateCartTotals() {
+                let subtotal = 0;
+                const allItemRows = cartTable.querySelectorAll('.cart-item-row');
+
+                allItemRows.forEach(row => {
+                    const lineTotalEl = row.querySelector('.line-total');
+                    subtotal += parseFloat(lineTotalEl.textContent.replace('$', ''));
+                });
+
+                // Update summary box
+                subtotalEl.textContent = `$${subtotal.toFixed(2)}`;
+                // For now, total equals subtotal (assuming free shipping)
+                totalEl.textContent = `$${subtotal.toFixed(2)}`;
+            }
+
+            // Event Listeners for quantity buttons and remove buttons
+            cartTable.addEventListener('click', (e) => {
+                // Check for quantity button click
+                if (e.target.classList.contains('quantity-btn')) {
+                    const button = e.target;
+                    const row = button.closest('.cart-item-row');
+                    const input = row.querySelector('.quantity-input');
+                    let currentVal = parseInt(input.value);
+
+                    if (button.classList.contains('increase-qty')) {
+                        input.value = currentVal + 1;
+                    } else if (button.classList.contains('decrease-qty') && currentVal > 1) {
+                        input.value = currentVal - 1;
+                    }
+                    updateLineTotal(row);
+                }
+
+                // Check for remove button click
+                if (e.target.closest('.remove-item-btn')) {
+                    const row = e.target.closest('.cart-item-row');
+                    row.remove();
+                    updateCartTotals();
+                }
+            });
+
+            // Initial calculation on page load
+            updateCartTotals();
+        });
+
+    </script>
+</body>
+</html>

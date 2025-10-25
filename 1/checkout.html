@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - NatureHeals</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
+    <style>
+        /* --- STYLES SPECIFIC TO CHECKOUT.HTML --- */
+
+        .checkout-section {
+            padding: 12rem 5% 6rem; /* Start content below fixed nav */
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .checkout-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 3rem;
+            align-items: flex-start;
+        }
+        .checkout-form-wrapper{
+            background-color: white;
+            padding: 20px;
+               border-radius: 25px;
+             border: 1px solid var(--soft-green);
+        }
+
+        .checkout-form-wrapper h3 {
+            font-size: 1.8rem;
+            color: var(--primary-green);
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--soft-green);
+        }
+
+        /* Form Group Styles */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid var(--soft-green);
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s;
+        }
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--accent-green);
+            box-shadow: 0 0 0 3px rgba(82, 183, 136, 0.2);
+        }
+
+        /* Form Layout Helpers */
+        .form-row {
+            display: flex;
+            gap: 1.5rem;
+        }
+        .form-group.full-width { flex-basis: 100%; }
+        .form-group.half-width { flex-basis: 50%; }
+        .form-group.third-width { flex-basis: 33.33%; }
+        
+        /* Shipping Checkbox */
+        #same-as-billing-group {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 2rem;
+            background: var(--soft-green);
+            padding: 1rem;
+            border-radius: 10px;
+        }
+        #same-as-billing-group input {
+            width: auto;
+            accent-color: var(--primary-green);
+        }
+        #same-as-billing-group label {
+            margin: 0;
+            font-weight: 500;
+            color: var(--primary-green);
+            cursor: pointer;
+        }
+
+        #shipping-form-container.hidden {
+            display: none;
+        }
+
+        /* --- Payment Method Selector --- */
+        .payment-options-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            margin-bottom: 1.5rem;
+        }
+        .payment-option {
+            background: var(--white);
+            border: 2px solid var(--soft-green);
+            border-radius: 10px;
+            padding: 1rem 1.5rem;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .payment-option.active,
+        .payment-option:hover {
+            border-color: var(--primary-green);
+            box-shadow: 0 0 0 3px rgba(27, 77, 62, 0.1);
+        }
+        .payment-option input[type="radio"] {
+            width: auto;
+            accent-color: var(--primary-green);
+        }
+        .payment-option label {
+            font-weight: 600;
+            color: var(--dark);
+            margin: 0;
+            cursor: pointer;
+            width: 100%;
+        }
+        .payment-option i {
+            color: var(--primary-green);
+            font-size: 1.5rem;
+            min-width: 30px;
+            text-align: center;
+        }
+        
+        .payment-content {
+            display: none; /* Hidden by default */
+            padding: 1.5rem;
+            background: var(--soft-green);
+            border-radius: 10px;
+            animation: fadeIn 0.4s;
+        }
+        .payment-content.active {
+            display: block; /* Shown by JS */
+        }
+        .payment-content p {
+            margin: 0;
+            color: var(--primary-green);
+            font-weight: 500;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* --- End Payment Styles --- */
+
+        /* --- Re-using Cart Summary Styles --- */
+        .cart-summary {
+            background: var(--white);
+            border-radius: 25px;
+            padding: 2.5rem;
+            border: 1px solid var(--soft-green);
+            box-shadow: 0 15px 40px var(--shadow-light);
+            position: sticky;
+            top: 120px; /* 80px nav + 40px gap */
+        }
+        .cart-summary h3 {
+            font-size: 1.8rem;
+            color: var(--primary-green);
+            margin-bottom: 2rem;
+            border-bottom: 2px solid var(--soft-green);
+            padding-bottom: 1rem;
+        }
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+        .summary-row span {
+            color: var(--gray);
+            font-weight: 400;
+        }
+        .summary-row strong {
+            color: var(--dark);
+            font-weight: 600;
+        }
+        .summary-total {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid var(--soft-green);
+        }
+        .cart-summary .btn {
+            width: 100%;
+            margin-top: 1rem;
+            padding: 1.2rem;
+        }
+        /* --- End Cart Summary Styles --- */
+
+        /* Order Item List */
+        .order-item-list {
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+        .order-item {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            padding: 1.2rem 0;
+            border-bottom: 1px solid var(--soft-green);
+        }
+        .order-item:last-child {
+            border-bottom: none;
+        }
+        /* Use a smaller icon */
+        .order-item .product-image-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--soft-green);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--accent-green);
+            flex-shrink: 0;
+        }
+        .order-item .item-details {
+            flex-grow: 1;
+            line-height: 1.3;
+        }
+        .order-item .item-details h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        .order-item .item-details span {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+        .order-item .item-price {
+            font-weight: 600;
+            font-size: 1rem;
+            color: var(--dark);
+        }
+        
+        .btn.full-width {
+            width: 100%;
+        }
+
+        /* Validation Styles */
+        .form-error-message {
+            color: #ff6b6b;
+            background: rgba(255, 107, 107, 0.1);
+            border: 1px solid rgba(255, 107, 107, 0.3);
+            padding: 1rem;
+            border-radius: 10px;
+            margin-top: 1.5rem;
+            display: none; /* Hidden by default */
+        }
+        .form-group.error input,
+        .form-group.error select {
+            border-color: #ff6b6b;
+            background: rgba(255, 107, 107, 0.05);
+        }
+        .form-group.error label {
+            color: #ff6b6b;
+        }
+        
+        /* SweetAlert Custom Styles */
+        .swal2-confirm {
+            background-color: var(--primary-green) !important;
+        }
+        .swal2-title {
+            color: var(--primary-green) !important;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .checkout-section {
+                padding-top: 10rem;
+            }
+            .checkout-container {
+                grid-template-columns: 1fr;
+            }
+            .checkout-summary-wrapper {
+                margin-top: 3rem;
+                order: -1; /* Move summary to top on mobile */
+            }
+            .cart-summary {
+                position: static;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+            .form-group.half-width,
+            .form-group.third-width {
+                flex-basis: 100%;
+                margin-bottom: 1.5rem; /* Re-add margin */
+            }
+            .form-row .form-group:last-child {
+                margin-bottom: 0;
+            }
+            .payment-option {
+                padding: 1rem;
+            }
+            .payment-option label {
+                font-size: 0.95rem;
+            }
+            .payment-option i {
+                font-size: 1.3rem;
+            }
+        }
+
+    </style>
+</head>
+<body>
+  <nav id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-leaf"></i>
+                NatureHeals
+            </a>
+            
+            <div class="nav-menu" id="nav-menu">
+                
+                <div class="nav-icons">
+                    <i class="fas fa-search" role="button" aria-label="Search"></i>
+                    
+                    <div class="nav-icon-item profile-dropdown-container">
+                        <i class="fas fa-user" id="profile-icon" role="button" aria-label="User account" aria-haspopup="true" aria-expanded="false" tabindex="0"></i> 
+                        
+                        <div class="profile-dropdown-menu" id="profile-dropdown">
+                            <a href="orders.html"><i class="fas fa-clipboard-list"></i> Order List</a>
+                            <a href="wishlist.html"><i class="fas fa-heart"></i> Wishlist</a>
+                            <a href="settings.html"><i class="fas fa-gear"></i> Settings</a>
+                        </div>
+                    </div>
+                    <a href="cart.html">
+                    <i class="fas fa-shopping-cart" style="position: relative;" role="button" aria-label="Shopping cart with 3 items">
+                        <span class="cart-badge">3</span>
+                    </i>
+                    </a>
+                    <p>Jai</p>
+                </div>
+            </div>
+            
+            <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+    <div class="menu-overlay" id="menu-overlay"></div>
+
+    <main>
+        <section class="checkout-section">
+            <div class="section-header reveal">
+                <p class="section-subtitle">Final Step</p>
+                <h2 class="section-title">Checkout</h2>
+            </div>
+
+            <div class="checkout-container">
+                
+                <div class="checkout-form-wrapper reveal">
+                    <form id="checkout-form" novalidate>
+                        
+                        <h3>Billing Details</h3>
+                        <div class="form-group full-width">
+                            <label for="full-name">Full Name</label>
+                            <input type="text" id="full-name" placeholder="John M. Doe" required>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group half-width">
+                                <label for="email">Email Address</label>
+                                <input type="email" id="email" placeholder="john.doe@example.com" required>
+                            </div>
+                            <div class="form-group half-width">
+                                <label for="phone">Phone Number</label>
+                                <input type="tel" id="phone" placeholder="+1 (555) 123-4567" required>
+                            </div>
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="address-1">Address Line 1</label>
+                            <input type="text" id="address-1" placeholder="123 Wellness Street" required>
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="address-2">Address Line 2 (Optional)</label>
+                            <input type="text" id="address-2" placeholder="Apt, Suite, etc.">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group third-width">
+                                <label for="city">City</label>
+                                <input type="text" id="city" placeholder="Nature City" required>
+                            </div>
+                            <div class="form-group third-width">
+                                <label for="state">State / Province</label>
+                                <input type="text" id="state" placeholder="California" required>
+                            </div>
+                            <div class="form-group third-width">
+                                <label for="zip">ZIP / Postal Code</label>
+                                <input type="text" id="zip" placeholder="90210" required>
+                            </div>
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="country">Country</label>
+                            <select id="country" required>
+                                <option value="">Select a Country...</option>
+                                <option value="USA">United States</option>
+                                <option value="CAN">Canada</option>
+                                <option value="UK">United Kingdom</option>
+                                <option value="AUS">Australia</option>
+                            </select>
+                        </div>
+
+                        <h3 style="margin-top: 3rem;">Shipping Details</h3>
+                        <div id="same-as-billing-group">
+                            <input type="checkbox" id="same-as-billing" checked>
+                            <label for="same-as-billing">My shipping address is the same as my billing address.</label>
+                        </div>
+                        <div id="shipping-form-container" class="hidden">
+                            <p>Enter your shipping address below...</p>
+                        </div>
+
+                        <h3 style="margin-top: 3rem;">Payment Method</h3>
+                        
+                        <ul class="payment-options-list">
+                            <li class="payment-option active" id="card-option">
+                                <input type="radio" id="pay-card" name="payment-method" value="card" checked>
+                                <i class="fas fa-credit-card"></i>
+                                <label for="pay-card">Credit / Debit Card</label>
+                            </li>
+                            <li class="payment-option" id="upi-option">
+                                <input type="radio" id="pay-upi" name="payment-method" value="upi">
+                                <i class="fab fa-google-pay"></i>
+                                <label for="pay-upi">UPI / Net Banking</label>
+                            </li>
+                            <li class="payment-option" id="cod-option">
+                                <input type="radio" id="pay-cod" name="payment-method" value="cod">
+                                <i class="fas fa-hand-holding-usd"></i>
+                                <label for="pay-cod">Cash on Delivery</label>
+                            </li>
+                        </ul>
+                        
+                        <div class="payment-content active" id="card-content">
+                            <div class="form-group full-width">
+                                <label for="card-number">Card Number</label>
+                                <input type="text" id="card-number" class="payment-input" placeholder="**** **** **** 1234">
+                            </div>
+                            <div class="form-group full-width">
+                                <label for="card-name">Name on Card</label>
+                                <input type="text" id="card-name" class="payment-input" placeholder="John M. Doe">
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group half-width">
+                                    <label for="card-expiry">Expiry Date (MM/YY)</label>
+                                    <input type="text" id="card-expiry" class="payment-input" placeholder="MM/YY">
+                                </div>
+                                <div class="form-group half-width">
+                                    <label for="card-cvc">CVC</label>
+                                    <input type="text" id="card-cvc" class="payment-input" placeholder="123">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="payment-content" id="upi-content">
+                            <p>You will be redirected to the UPI/Net Banking payment gateway on the next step.</p>
+                        </div>
+
+                        <div class="payment-content" id="cod-content">
+                            <p>You can pay in cash to the delivery agent upon receiving your order. Please keep exact change ready.</p>
+                        </div>
+
+
+                        <div class="form-error-message" id="form-error">
+                            Please fill out all required fields correctly.
+                        </div>
+
+                    </form>
+                </div>
+
+                <div class="checkout-summary-wrapper reveal">
+                    <div class="cart-summary">
+                        <h3>Your Order</h3>
+                        
+                        <ul class="order-item-list">
+                            <li class="order-item">
+                                <div class="product-image-icon"><i class="fas fa-mortar-pestle"></i></div>
+                                <div class="item-details">
+                                    <h4>Turmeric Complex</h4>
+                                    <span>Quantity: 1</span>
+                                </div>
+                                <span class="item-price">$24.99</span>
+                            </li>
+                            <li class="order-item">
+                                <div class="product-image-icon"><i class="fas fa-cannabis"></i></div>
+                                <div class="item-details">
+                                    <h4>Ashwagandha Blend</h4>
+                                    <span>Quantity: 2</span>
+                                </div>
+                                <span class="item-price">$59.98</span>
+                            </li>
+                            <li class="order-item">
+                                <div class="product-image-icon"><i class="fas fa-seedling"></i></div>
+                                <div class="item-details">
+                                    <h4>Ginger Root Extract</h4>
+                                    <span>Quantity: 1</span>
+                                </div>
+                                <span class="item-price">$19.99</span>
+                            </li>
+                        </ul>
+
+                        <div class="summary-row">
+                            <span>Subtotal</span>
+                            <strong id="summary-subtotal">$104.96</strong>
+                        </div>
+                        
+                        <div class="summary-row">
+                            <span>Shipping</span>
+                            <strong>FREE</strong>
+                        </div>
+    
+                        <div class="summary-row summary-total">
+                            <span>Total</span>
+                            <strong id="summary-final-total">$104.96</strong>
+                        </div>
+    
+                        <button class="btn btn-primary full-width" id="place-order-btn">
+                            <span>Place Order Securely</span>
+                            <i class="fas fa-lock"></i>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>About NatureHeals</h3>
+                <p>We believe in the power of nature to heal and restore. Our mission is to provide premium organic herbal products that enhance your wellbeing naturally.</p>
+                <div class="social-icons">
+                    <a href="#" class="fab fa-facebook" aria-label="Facebook"></a>
+                    <a href="#" class="fab fa-instagram" aria-label="Instagram"></a>
+                    <a href="#" class="fab fa-twitter" aria-label="Twitter"></a>
+                    <a href="#" class="fab fa-youtube" aria-label="Youtube"></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html#products">Shop Products</a></li>
+                    <li><a href="index.html#about">About Us</a></li>
+                    <li><a href="index.html#blog">Health Blog</a></li>
+                    <li><a href="index.html#contact">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Customer Care</h3>
+                <ul>
+                    <li><a href="#">Shipping Policy</a></li>
+                    <li><a href="#">Return Policy</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms & Conditions</a></li>
+                </ul>
+            </div>
+            <div class="footer-section contact-info" id="contact">
+                <h3>Contact Us</h3>
+                <ul>
+                    <li>
+                        <i class="fas fa-map-marker-alt"></i> 
+                        <span>123 Wellness Street, Nature City</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-phone"></i>
+                        <span>+1 (555) 123-4567</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-envelope"></i>
+                        <span>info@natureheals.com</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 NatureHeals. All rights reserved. Made with <i class="fas fa-heart" style="color: var(--accent-green);"></i> for your wellness journey</p>
+        </div>
+    </footer>
+
+    <button class="scroll-to-top" id="scrollToTopBtn" aria-label="Scroll to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+    
+    <audio id="order-success-sound" src="assets/audio/order.mp3" preload="auto"></audio>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="assets/js/script.js"></script>
+
+
+    <script>
+        // --- SHARED JS (NAV, SCROLL, REVEAL) ---
+        // (This code is identical to the previous step)
+
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const targetId = this.getAttribute('href');
+                
+                // Check if it's a link to another page's anchor
+                if(targetId.startsWith("index.html#")) {
+                    window.location.href = targetId;
+                    e.preventDefault();
+                    return;
+                }
+
+                const target = document.querySelector(targetId);
+                
+                if (target) {
+                    e.preventDefault(); // Only prevent default if it's a same-page anchor
+                    const headerOffset = document.getElementById('navbar').offsetHeight + 20;
+                    const elementPosition = target.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                    
+                    if (navMenu.classList.contains('active')) {
+                        closeMobileMenu();
+                    }
+                }
+            });
+        });
+        
+        // Mobile Navigation Toggle
+        const navToggle = document.getElementById('nav-toggle');
+        const navMenu = document.getElementById('nav-menu');
+        const menuOverlay = document.getElementById('menu-overlay');
+
+        function openMobileMenu() {
+            navMenu.classList.add('active');
+            navToggle.classList.add('active');
+            navToggle.setAttribute('aria-expanded', 'true');
+            menuOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMobileMenu() {
+            navMenu.classList.remove('active');
+            navToggle.classList.remove('active');
+            navToggle.setAttribute('aria-expanded', 'false');
+            menuOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        if (navToggle && navMenu && menuOverlay) {
+            navToggle.addEventListener('click', () => {
+                if (navMenu.classList.contains('active')) {
+                    closeMobileMenu();
+                } else {
+                    openMobileMenu();
+                }
+            });
+            
+            menuOverlay.addEventListener('click', closeMobileMenu);
+        }
+        
+        // Scroll to Top Button
+        const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                scrollToTopBtn.classList.add('visible');
+            } else {
+                scrollToTopBtn.classList.remove('visible');
+            }
+        });
+
+        scrollToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // On-Scroll Reveal Animation Logic
+        const revealElements = document.querySelectorAll('.reveal');
+
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        revealElements.forEach(el => {
+            revealObserver.observe(el);
+        });
+
+        // --- PAGE-SPECIFIC JS (CHECKOUT PAGE) ---
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // Shipping Form Toggle
+            const shippingToggle = document.getElementById('same-as-billing');
+            const shippingForm = document.getElementById('shipping-form-container');
+
+            if(shippingToggle && shippingForm) {
+                shippingToggle.addEventListener('change', () => {
+                    shippingForm.classList.toggle('hidden', shippingToggle.checked);
+                    // In a real app, you'd also toggle 'required' on shipping inputs here
+                });
+            }
+
+            // Payment Method Toggle
+            const paymentOptions = document.querySelectorAll('.payment-option input[name="payment-method"]');
+            const paymentContents = document.querySelectorAll('.payment-content');
+            const paymentOptionItems = document.querySelectorAll('.payment-option');
+            const cardInputs = document.querySelectorAll('#card-content .payment-input');
+
+            // Set card inputs as required by default
+            const setCardInputsRequired = (isRequired) => {
+                cardInputs.forEach(input => {
+                    input.required = isRequired;
+                });
+            };
+            setCardInputsRequired(true); // Initially true
+
+            paymentOptions.forEach(radio => {
+                radio.addEventListener('change', (e) => {
+                    const selectedValue = e.target.value; // 'card', 'upi', or 'cod'
+                    
+                    // Update content visibility
+                    paymentContents.forEach(content => {
+                        content.classList.toggle('active', content.id === `${selectedValue}-content`);
+                    });
+
+                    // Update parent <li> class
+                    paymentOptionItems.forEach(item => {
+                        item.classList.toggle('active', item.id === `${selectedValue}-option`);
+                    });
+
+                    // Update validation
+                    setCardInputsRequired(selectedValue === 'card');
+                });
+            });
+
+
+            // **** UPDATED: Form Validation with SweetAlert2 & 3x Sound ****
+            const placeOrderBtn = document.getElementById('place-order-btn');
+            const checkoutForm = document.getElementById('checkout-form');
+            const errorMessage = document.getElementById('form-error');
+            const successSound = document.getElementById('order-success-sound');
+
+            if(placeOrderBtn && checkoutForm && errorMessage) {
+                
+                placeOrderBtn.addEventListener('click', (e) => {
+                    e.preventDefault(); // Stop form submission
+                    
+                    let isValid = true;
+                    // Find ALL required inputs within the form
+                    const requiredInputs = checkoutForm.querySelectorAll('[required]');
+                    
+                    // Reset all errors
+                    errorMessage.style.display = 'none';
+                    requiredInputs.forEach(input => {
+                        input.closest('.form-group').classList.remove('error');
+                    });
+
+                    // Check each required input
+                    requiredInputs.forEach(input => {
+                        // Check if the input is visible (i.e., not in a hidden shipping form)
+                        if (input.offsetParent !== null && input.value.trim() === '') {
+                            isValid = false;
+                            input.closest('.form-group').classList.add('error');
+                        }
+                    });
+
+                    // Show error message or proceed to confirmation
+                    if (!isValid) {
+                        errorMessage.style.display = 'block';
+                        errorMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    } else {
+                        // --- SWEETALERT WORKFLOW ---
+                        errorMessage.style.display = 'none';
+                        
+                        // 1. Confirmation Alert
+                        Swal.fire({
+                            title: 'Confirm Your Order?',
+                            text: "You are about to place this order. Are you sure?",
+                            icon: 'question',
+                            showCancelButton: true,
+                            confirmButtonColor: '#1b4d3e', // var(--primary-green)
+                            cancelButtonColor: '#ff6b6b',
+                            confirmButtonText: 'Yes, place it!',
+                            cancelButtonText: 'No, cancel'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                
+                                // 2. Loading/Processing Alert
+                                let timerInterval;
+                                Swal.fire({
+                                    title: 'Placing Your Order...',
+                                    html: 'Please wait while we process your request.',
+                                    timer: 2000, // Simulate 2-second processing
+                                    timerProgressBar: true,
+                                    allowOutsideClick: false,
+                                    didOpen: () => {
+                                        Swal.showLoading()
+                                    },
+                                    willClose: () => {
+                                        clearInterval(timerInterval)
+                                    }
+                                }).then((result) => {
+                                    /* Read more about handling dismissals below */
+                                    if (result.dismiss === Swal.DismissReason.timer) {
+                                        
+                                        // 3. Play Sound 3 Times
+                                        if (successSound) {
+                                            let playCount = 0;
+                                            const maxPlays = 3;
+
+                                            const playSoundAgain = () => {
+                                                playCount++;
+                                                if (playCount < maxPlays) {
+                                                    successSound.currentTime = 0; // Rewind to start
+                                                    successSound.play().catch(e => console.error("Audio play failed:", e));
+                                                } else {
+                                                    // Remove the listener after 3 plays
+                                                    successSound.removeEventListener('ended', playSoundAgain);
+                                                }
+                                            };
+
+                                            // Add the event listener
+                                            successSound.addEventListener('ended', playSoundAgain);
+
+                                            // Start the first play
+                                            playCount = 0; // Reset count
+                                            successSound.play().catch(e => {
+                                                console.error("Audio play failed:", e);
+                                                // If first play fails, remove listener
+                                                successSound.removeEventListener('ended', playSoundAgain);
+                                            });
+                                        }
+
+                                        // 4. Success Alert
+                                        Swal.fire({
+                                            title: 'Order Placed!',
+                                            text: 'Your order has been successfully placed. A confirmation email is on its way.',
+                                            icon: 'success',
+                                            confirmButtonColor: '#1b4d3e'
+                                        }).then(() => {
+                                            // Optional: Redirect to a "Thank You" page
+                                            window.location.href = 'thank-you.html';
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                        // --- END SWEETALERT WORKFLOW ---
+                    }
+                });
+
+                // Clear error on input
+                checkoutForm.querySelectorAll('[required]').forEach(input => {
+                    input.addEventListener('input', () => {
+                        if (input.value.trim() !== '') {
+                            input.closest('.form-group').classList.remove('error');
+                        }
+                    });
+                });
+            }
+
+        });
+    </script>
+</body>
+</html>

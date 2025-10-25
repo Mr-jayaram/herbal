@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - NatureHeals</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <style>
+        /* --- STYLES SPECIFIC TO REGISTER.HTML --- */
+        /* Reusing login styles with slight adjustments */
+
+        .auth-section {
+            padding: 12rem 5% 6rem; /* Start content below fixed nav */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 90vh; /* Slightly more height for more fields */
+            background: linear-gradient(135deg, #e8f7f0 0%, #d8f3dc 80%); /* Soft background */
+        }
+
+        .auth-container {
+            background: var(--white);
+            padding: 3rem;
+            border-radius: 25px;
+            box-shadow: 0 15px 40px var(--shadow-medium);
+            max-width: 500px; /* Slightly wider */
+            width: 100%;
+            text-align: center;
+        }
+
+        .auth-container .logo { /* Center logo */
+            justify-content: center;
+            margin-bottom: 1rem;
+            font-size: 2rem;
+        }
+        
+        .auth-container h2 {
+            font-size: 2rem;
+            color: var(--primary-green);
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+        
+        .auth-container p.subtitle {
+            color: var(--gray);
+            margin-bottom: 2.5rem;
+            font-size: 1.05rem;
+        }
+
+        /* Form Group Styles */
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left; /* Align labels left */
+        }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid var(--soft-green);
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s;
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--accent-green);
+            box-shadow: 0 0 0 3px rgba(82, 183, 136, 0.2);
+        }
+        
+        /* Specific register styles */
+         .form-group.password-group {
+             position: relative;
+         }
+         .password-toggle-icon {
+             position: absolute;
+             right: 1rem;
+             top: calc(50% + 10px); /* Adjust based on label height */
+             transform: translateY(-50%);
+             color: var(--gray);
+             cursor: pointer;
+         }
+
+        .auth-container .btn { /* Full width button */
+            width: 100%;
+            padding: 1.1rem;
+            font-size: 1.1rem;
+            margin-top: 1rem;
+        }
+        
+        .switch-auth {
+            margin-top: 2rem;
+            color: var(--gray);
+            font-size: 0.95rem;
+        }
+        .switch-auth a {
+            color: var(--primary-green);
+            font-weight: 600;
+            text-decoration: none;
+        }
+        .switch-auth a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Validation */
+         .form-error-message {
+            color: #ff6b6b;
+            background: rgba(255, 107, 107, 0.1);
+            border: 1px solid rgba(255, 107, 107, 0.3);
+            padding: 0.8rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            display: none; /* Hidden by default */
+            text-align: left;
+        }
+        .form-group.error input {
+            border-color: #ff6b6b;
+            background: rgba(255, 107, 107, 0.05);
+        }
+
+    </style>
+</head>
+<body>
+   
+    <main>
+        <section class="auth-section">
+            <div class="auth-container reveal">
+                 <a href="index.html" class="logo">
+                    <i class="fas fa-leaf"></i>
+                    NatureHeals
+                </a>
+                <h2>Create Account</h2>
+                <p class="subtitle">Join our community for a healthier life.</p>
+
+                <form id="register-form" novalidate>
+                    <div class="form-error-message" id="form-error">Please correct the errors below.</div>
+                    
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" placeholder="John Doe" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" placeholder="you@example.com" required>
+                    </div>
+
+                    <div class="form-group password-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" placeholder="Minimum 8 characters" required minlength="8">
+                        <i class="fas fa-eye password-toggle-icon" id="togglePassword"></i>
+                    </div>
+
+                     <div class="form-group password-group">
+                        <label for="confirm-password">Confirm Password</label>
+                        <input type="password" id="confirm-password" placeholder="Re-enter your password" required>
+                         <i class="fas fa-eye password-toggle-icon" id="toggleConfirmPassword"></i>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Create Account</button>
+                </form>
+
+                <p class="switch-auth">
+                    Already have an account? <a href="login.html">Log In</a>
+                </p>
+            </div>
+        </section>
+    </main>
+
+  
+
+    <button class="scroll-to-top" id="scrollToTopBtn" aria-label="Scroll to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+    
+
+    <script>
+        // --- SHARED JS (NAV, SCROLL, REVEAL) ---
+        // (This code is identical to previous pages)
+
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', function() { if (window.scrollY > 50) navbar.classList.add('scrolled'); else navbar.classList.remove('scrolled'); });
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => { anchor.addEventListener('click', function (e) { const targetId = this.getAttribute('href'); if(targetId.startsWith("index.html#")) { window.location.href = targetId; e.preventDefault(); return; } const target = document.querySelector(targetId); if (target) { e.preventDefault(); const headerOffset = navbar.offsetHeight + 20; const elementPosition = target.getBoundingClientRect().top; const offsetPosition = elementPosition + window.pageYOffset - headerOffset; window.scrollTo({ top: offsetPosition, behavior: 'smooth' }); if (navMenu.classList.contains('active')) closeMobileMenu(); } }); });
+        const navToggle = document.getElementById('nav-toggle'); const navMenu = document.getElementById('nav-menu'); const menuOverlay = document.getElementById('menu-overlay'); function openMobileMenu() { navMenu.classList.add('active'); navToggle.classList.add('active'); navToggle.setAttribute('aria-expanded', 'true'); menuOverlay.classList.add('active'); document.body.style.overflow = 'hidden'; } function closeMobileMenu() { navMenu.classList.remove('active'); navToggle.classList.remove('active'); navToggle.setAttribute('aria-expanded', 'false'); menuOverlay.classList.remove('active'); document.body.style.overflow = ''; } if (navToggle && navMenu && menuOverlay) { navToggle.addEventListener('click', () => { if (navMenu.classList.contains('active')) closeMobileMenu(); else openMobileMenu(); }); menuOverlay.addEventListener('click', closeMobileMenu); }
+        const scrollToTopBtn = document.getElementById('scrollToTopBtn'); window.addEventListener('scroll', () => { if (window.scrollY > 300) scrollToTopBtn.classList.add('visible'); else scrollToTopBtn.classList.remove('visible'); }); scrollToTopBtn.addEventListener('click', () => { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+        const revealElements = document.querySelectorAll('.reveal'); const revealObserver = new IntersectionObserver((entries, observer) => { entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); } }); }, { threshold: 0.1 }); revealElements.forEach(el => { revealObserver.observe(el); });
+
+        // --- PAGE-SPECIFIC JS (REGISTER PAGE) ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const registerForm = document.getElementById('register-form');
+            const errorMessage = document.getElementById('form-error');
+            const passwordInput = document.getElementById('password');
+            const confirmPasswordInput = document.getElementById('confirm-password');
+            const togglePassword = document.getElementById('togglePassword');
+            const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
+
+             // Password visibility toggle
+            const setupPasswordToggle = (toggleBtn, passwordField) => {
+                if (toggleBtn && passwordField) {
+                    toggleBtn.addEventListener('click', function () {
+                        // toggle the type attribute
+                        const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+                        passwordField.setAttribute('type', type);
+                        // toggle the eye icon
+                        this.classList.toggle('fa-eye-slash');
+                    });
+                }
+            };
+            setupPasswordToggle(togglePassword, passwordInput);
+            setupPasswordToggle(toggleConfirmPassword, confirmPasswordInput);
+
+            if (registerForm) {
+                registerForm.addEventListener('submit', (e) => {
+                    e.preventDefault(); // Prevent actual submission for demo
+                    errorMessage.style.display = 'none'; // Hide error initially
+                    let errors = [];
+
+                    // Basic validation
+                    const nameInput = document.getElementById('name');
+                    const emailInput = document.getElementById('email');
+                    const requiredInputs = [nameInput, emailInput, passwordInput, confirmPasswordInput];
+                    
+                    // Reset errors
+                    requiredInputs.forEach(input => input.closest('.form-group').classList.remove('error'));
+
+                    requiredInputs.forEach(input => {
+                        if (input.value.trim() === '') {
+                             input.closest('.form-group').classList.add('error');
+                             errors.push(`${input.previousElementSibling.textContent} is required.`);
+                        }
+                    });
+
+                    // Password length
+                    if (passwordInput.value.length > 0 && passwordInput.value.length < 8) {
+                         passwordInput.closest('.form-group').classList.add('error');
+                         errors.push('Password must be at least 8 characters long.');
+                    }
+                    
+                    // Password match
+                    if (passwordInput.value !== confirmPasswordInput.value && confirmPasswordInput.value.length > 0) {
+                         confirmPasswordInput.closest('.form-group').classList.add('error');
+                         errors.push('Passwords do not match.');
+                    }
+
+                    if (errors.length > 0) {
+                        errorMessage.innerHTML = errors.join('<br>'); // Display all errors
+                        errorMessage.style.display = 'block';
+                    } else {
+                        // Simulate registration attempt
+                        console.log('Attempting registration...');
+                        // In a real app, send data to server
+                        
+                         // Simulate success
+                        setTimeout(() => {
+                            // You might redirect to login or show a success message
+                            alert('Registration successful! Please log in.');
+                            window.location.href = 'login.html'; 
+                        }, 500);
+                    }
+                });
+
+                 // Clear error on input
+                registerForm.querySelectorAll('[required]').forEach(input => {
+                    input.addEventListener('input', () => {
+                        if (input.value.trim() !== '') {
+                            input.closest('.form-group').classList.remove('error');
+                        }
+                        // Optionally hide general error message on any input change
+                        // errorMessage.style.display = 'none'; 
+                    });
+                });
+            }
+        });
+        
+    </script>
+</body>
+</html>
