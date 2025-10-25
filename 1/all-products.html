@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Products - NatureHeals</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="assets/css/style.css   ">
+
+    <style>
+        /* --- STYLES SPECIFIC TO ALL-PRODUCTS.HTML --- */
+
+        .all-products-section {
+            padding: 12rem 5% 6rem; /* Start content below fixed nav */
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        /* Section header is already in common.css */
+        
+        /* Filter/Sort Bar */
+        .product-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+            padding: 1.5rem;
+            background: var(--white);
+            border: 1px solid var(--soft-green);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px var(--shadow-light);
+        }
+        
+        .filter-options button,
+        .sort-options select {
+            padding: 0.8rem 1.5rem;
+            border: 2px solid var(--soft-green);
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-family: 'Poppins', sans-serif;
+            background: var(--white);
+            color: var(--dark);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .filter-options button {
+             margin-right: 0.8rem;
+        }
+        .filter-options button:hover,
+        .filter-options button.active {
+             background: var(--primary-green);
+             color: var(--white);
+             border-color: var(--primary-green);
+        }
+        
+        .sort-options label {
+             margin-right: 0.5rem;
+             font-weight: 500;
+             color: var(--gray);
+        }
+        .sort-options select:focus {
+             outline: none;
+             border-color: var(--accent-green);
+             box-shadow: 0 0 0 3px rgba(82, 183, 136, 0.2);
+        }
+        
+        /* Product Grid (reuses common.css .products-grid) */
+        /* Make sure cards have bottom margin when wrapping */
+        .all-products-grid .product-card {
+            margin-bottom: 2rem; /* Add consistent spacing */
+            /* width/margin-left are handled in common.css media queries */
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.8rem;
+            margin-top: 4rem;
+        }
+        .pagination a,
+        .pagination span {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            border: 2px solid var(--soft-green);
+            background: var(--white);
+            color: var(--primary-green);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .pagination a:hover,
+        .pagination a.active {
+            background: var(--primary-green);
+            color: var(--white);
+            border-color: var(--primary-green);
+        }
+        .pagination span { /* For ellipses or disabled links */
+            background: none;
+            border: none;
+            color: var(--gray);
+        }
+        .pagination a.prev-next { /* Arrow buttons */
+             font-size: 1.1rem;
+        }
+
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .product-controls {
+                 flex-direction: column;
+                 align-items: stretch;
+            }
+             .filter-options {
+                 display: flex;
+                 flex-wrap: wrap;
+                 gap: 0.5rem;
+             }
+             .filter-options button {
+                 margin-right: 0;
+             }
+             .sort-options {
+                 margin-top: 1rem;
+             }
+        }
+
+    </style>
+</head>
+<body>
+   <nav id="navbar">
+        <div class="nav-container">
+            <a href="#home" class="logo">
+                <i class="fas fa-leaf"></i>
+                NatureHeals
+            </a>
+            
+            <div class="nav-menu" id="nav-menu">
+                <ul class="nav-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#products">Products</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#blog">Blog</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+                <div class="nav-icons">
+                    <i class="fas fa-search" role="button" aria-label="Search"></i>
+                    <i class="fas fa-user" role="button" aria-label="User account"></i>
+                    <a href="cart.html">
+                    <i class="fas fa-shopping-cart" style="position: relative;" role="button" aria-label="Shopping cart with 3 items">
+                        <span class="cart-badge">3</span>
+                    </i>
+                    </a>
+                </div>
+            </div>
+            
+            <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+    <div class="menu-overlay" id="menu-overlay"></div>
+
+    <main>
+        <section class="all-products-section">
+            <div class="section-header reveal">
+                <p class="section-subtitle">Our Collection</p>
+                <h2 class="section-title">All Products</h2>
+                <p class="section-description">Explore our full range of organic herbal supplements and wellness products.</p>
+            </div>
+
+            <div class="product-controls reveal">
+                <div class="filter-options">
+                    <button class="active">All</button>
+                    <button>Immunity</button>
+                    <button>Wellness</button>
+                    <button>Digestive</button>
+                    <button>Heart</button>
+                    </div>
+                <div class="sort-options">
+                    <label for="sort-by">Sort by:</label>
+                    <select id="sort-by">
+                        <option value="featured">Featured</option>
+                        <option value="price-asc">Price: Low to High</option>
+                        <option value="price-desc">Price: High to Low</option>
+                        <option value="name-asc">Name: A to Z</option>
+                        <option value="name-desc">Name: Z to A</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="products-grid all-products-grid">
+                <div class="product-card reveal">
+                    <div class="product-image">
+                        <i class="fas fa-mortar-pestle"></i>
+                        <span class="product-badge">Best Seller</span>
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">Immunity</span>
+                        <h3><a href="product.html">Turmeric Complex</a></h3>
+                        <div class="product-price">
+                            <span class="price-current">$24.99</span>
+                            <span class="price-old">$34.99</span>
+                            <span class="discount-badge">-29%</span>
+                        </div>
+                        <div class="product-actions">
+                            <button class="btn-cart"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+                            <button class="btn-wishlist" aria-label="Add to wishlist"><i class="far fa-heart"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card reveal">
+                    <div class="product-image">
+                        <i class="fas fa-seedling"></i>
+                        <span class="product-badge">New</span>
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">Digestive Health</span>
+                        <h3><a href="product.html">Ginger Root Extract</a></h3>
+                        <div class="product-price">
+                            <span class="price-current">$19.99</span>
+                        </div>
+                        <div class="product-actions">
+                            <button class="btn-cart"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+                            <button class="btn-wishlist" aria-label="Add to wishlist"><i class="far fa-heart"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card reveal">
+                    <div class="product-image">
+                        <i class="fas fa-cannabis"></i>
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">Wellness</span>
+                        <h3><a href="product.html">Ashwagandha Blend</a></h3>
+                        <div class="product-price">
+                            <span class="price-current">$29.99</span>
+                        </div>
+                        <div class="product-actions">
+                            <button class="btn-cart"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+                            <button class="btn-wishlist" aria-label="Add to wishlist"><i class="far fa-heart"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card reveal">
+                    <div class="product-image">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">Heart Health</span>
+                        <h3><a href="product.html">Garlic Capsules</a></h3>
+                        <div class="product-price">
+                            <span class="price-current">$16.99</span>
+                             <span class="price-old">$22.99</span>
+                             <span class="discount-badge">-26%</span>
+                        </div>
+                        <div class="product-actions">
+                            <button class="btn-cart"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+                            <button class="btn-wishlist" aria-label="Add to wishlist"><i class="far fa-heart"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card reveal">
+                    <div class="product-image">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">Focus</span>
+                        <h3><a href="product.html">Lion's Mane</a></h3>
+                        <div class="product-price">
+                            <span class="price-current">$32.99</span>
+                        </div>
+                        <div class="product-actions">
+                            <button class="btn-cart"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+                            <button class="btn-wishlist" aria-label="Add to wishlist"><i class="far fa-heart"></i></button>
+                        </div>
+                    </div>
+                </div>
+                 <div class="product-card reveal">
+                    <div class="product-image">
+                        <i class="fas fa-moon"></i>
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">Sleep</span>
+                        <h3><a href="product.html">Valerian Root Tincture</a></h3>
+                        <div class="product-price">
+                            <span class="price-current">$21.99</span>
+                        </div>
+                        <div class="product-actions">
+                            <button class="btn-cart"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+                            <button class="btn-wishlist" aria-label="Add to wishlist"><i class="far fa-heart"></i></button>
+                        </div>
+                    </div>
+                </div>
+                 <div class="product-card reveal">
+                    <div class="product-image">
+                        <i class="fas fa-shield-virus"></i>
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">Immunity</span>
+                        <h3><a href="product.html">Elderberry Syrup</a></h3>
+                        <div class="product-price">
+                            <span class="price-current">$26.50</span>
+                        </div>
+                        <div class="product-actions">
+                            <button class="btn-cart"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+                            <button class="btn-wishlist" aria-label="Add to wishlist"><i class="far fa-heart"></i></button>
+                        </div>
+                    </div>
+                </div>
+                 <div class="product-card reveal">
+                    <div class="product-image">
+                        <i class="fas fa-fire"></i>
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">Energy</span>
+                        <h3><a href="product.html">Maca Root Powder</a></h3>
+                        <div class="product-price">
+                            <span class="price-current">$18.99</span>
+                        </div>
+                        <div class="product-actions">
+                            <button class="btn-cart"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+                            <button class="btn-wishlist" aria-label="Add to wishlist"><i class="far fa-heart"></i></button>
+                        </div>
+                    </div>
+                </div>
+                
+                 </div>
+
+            <div class="pagination reveal">
+                <a href="#" class="prev-next" aria-label="Previous page"><i class="fas fa-chevron-left"></i></a>
+                <a href="#" class="active" aria-current="page">1</a>
+                <a href="#">2</a>
+                <a href="#">3</a>
+                <span>...</span>
+                <a href="#">8</a>
+                <a href="#" class="prev-next" aria-label="Next page"><i class="fas fa-chevron-right"></i></a>
+            </div>
+
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>About NatureHeals</h3>
+                <p>We believe in the power of nature to heal and restore. Our mission is to provide premium organic herbal products that enhance your wellbeing naturally.</p>
+                <div class="social-icons">
+                    <a href="#" class="fab fa-facebook" aria-label="Facebook"></a>
+                    <a href="#" class="fab fa-instagram" aria-label="Instagram"></a>
+                    <a href="#" class="fab fa-twitter" aria-label="Twitter"></a>
+                    <a href="#" class="fab fa-youtube" aria-label="Youtube"></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html#products">Shop Products</a></li>
+                    <li><a href="index.html#about">About Us</a></li>
+                    <li><a href="index.html#blog">Health Blog</a></li>
+                    <li><a href="index.html#contact">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Customer Care</h3>
+                <ul>
+                    <li><a href="#">Shipping Policy</a></li>
+                    <li><a href="#">Return Policy</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms & Conditions</a></li>
+                </ul>
+            </div>
+            <div class="footer-section contact-info" id="contact">
+                <h3>Contact Us</h3>
+                <ul>
+                    <li>
+                        <i class="fas fa-map-marker-alt"></i> 
+                        <span>123 Wellness Street, Nature City</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-phone"></i>
+                        <span>+1 (555) 123-4567</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-envelope"></i>
+                        <span>info@natureheals.com</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 NatureHeals. All rights reserved. Made with <i class="fas fa-heart" style="color: var(--accent-green);"></i> for your wellness journey</p>
+        </div>
+    </footer>
+
+    <button class="scroll-to-top" id="scrollToTopBtn" aria-label="Scroll to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+    
+
+    <script>
+        // --- SHARED JS (NAV, SCROLL, REVEAL) ---
+        // (This code is identical to the previous step)
+
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const targetId = this.getAttribute('href');
+                
+                // Check if it's a link to another page's anchor
+                if(targetId.startsWith("index.html#")) {
+                    window.location.href = targetId;
+                    e.preventDefault();
+                    return;
+                }
+                // Check if it's a link to THIS page's anchor (unlikely here, but good practice)
+                 if (targetId.startsWith("#")) {
+                    const target = document.querySelector(targetId);
+                     if (target) {
+                        e.preventDefault(); // Only prevent default if it's a same-page anchor
+                        const headerOffset = document.getElementById('navbar').offsetHeight + 20;
+                        const elementPosition = target.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'smooth'
+                        });
+                        
+                        if (navMenu.classList.contains('active')) {
+                            closeMobileMenu();
+                        }
+                    }
+                }
+                // Otherwise, let the browser handle the link (e.g., to all-products.html)
+            });
+        });
+        
+        // Mobile Navigation Toggle
+        const navToggle = document.getElementById('nav-toggle');
+        const navMenu = document.getElementById('nav-menu');
+        const menuOverlay = document.getElementById('menu-overlay');
+
+        function openMobileMenu() {
+            navMenu.classList.add('active');
+            navToggle.classList.add('active');
+            navToggle.setAttribute('aria-expanded', 'true');
+            menuOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMobileMenu() {
+            navMenu.classList.remove('active');
+            navToggle.classList.remove('active');
+            navToggle.setAttribute('aria-expanded', 'false');
+            menuOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        if (navToggle && navMenu && menuOverlay) {
+            navToggle.addEventListener('click', () => {
+                if (navMenu.classList.contains('active')) {
+                    closeMobileMenu();
+                } else {
+                    openMobileMenu();
+                }
+            });
+            
+            menuOverlay.addEventListener('click', closeMobileMenu);
+        }
+        
+        // Scroll to Top Button
+        const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                scrollToTopBtn.classList.add('visible');
+            } else {
+                scrollToTopBtn.classList.remove('visible');
+            }
+        });
+
+        scrollToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // On-Scroll Reveal Animation Logic
+        const revealElements = document.querySelectorAll('.reveal');
+
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        revealElements.forEach(el => {
+            revealObserver.observe(el);
+        });
+
+        // --- PAGE-SPECIFIC JS (ALL PRODUCTS PAGE) ---
+        document.addEventListener('DOMContentLoaded', () => {
+             // Placeholder for future filtering/sorting JS
+             const filterButtons = document.querySelectorAll('.filter-options button');
+             filterButtons.forEach(button => {
+                 button.addEventListener('click', () => {
+                      // Remove active class from all buttons
+                      filterButtons.forEach(btn => btn.classList.remove('active'));
+                      // Add active class to the clicked button
+                      button.classList.add('active');
+                      // In a real app, you would filter the product grid here based on the button's text/value
+                      console.log('Filter by:', button.textContent); 
+                 });
+             });
+
+             const sortSelect = document.getElementById('sort-by');
+             if(sortSelect) {
+                 sortSelect.addEventListener('change', (e) => {
+                     // In a real app, you would sort the product grid here
+                     console.log('Sort by:', e.target.value);
+                 });
+             }
+        });
+        
+    </script>
+</body>
+</html>

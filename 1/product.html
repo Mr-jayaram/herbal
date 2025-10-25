@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Turmeric Complex - NatureHeals</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <style>
+        /* --- STYLES SPECIFIC TO PRODUCT.HTML (IMPROVED) --- */
+
+        .product-detail-section {
+            padding: 12rem 5% 6rem; /* Start content below fixed nav */
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .product-detail-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .product-gallery .gallery-main-image {
+            background: linear-gradient(135deg, var(--soft-green) 0%, #b7e4c7 100%);
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10rem;
+            color: var(--accent-green);
+            height: 500px;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--soft-green);
+            /* --- IMPROVEMENT --- */
+            box-shadow: 0 10px 30px -10px var(--shadow-light);
+            transition: all 0.4s ease;
+        }
+
+        .product-gallery .gallery-thumbnails {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+        }
+
+        .product-gallery .thumbnail-item {
+            background: var(--white);
+            border: 2px solid var(--soft-green);
+            border-radius: 15px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: var(--accent-green);
+            cursor: pointer;
+            /* --- IMPROVEMENT --- */
+            transition: all 0.3s ease;
+            opacity: 0.7; /* Fade out non-active items */
+        }
+
+        .product-gallery .thumbnail-item.active,
+        .product-gallery .thumbnail-item:hover {
+            border-color: var(--accent-green);
+            box-shadow: 0 4px 15px var(--shadow-light);
+            /* --- IMPROVEMENT --- */
+            opacity: 1;
+            transform: scale(1.05);
+        }
+        
+        /* --- NEW RULE --- */
+        .product-details-content .product-category {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--accent-green);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-details-content h1 {
+            font-size: 3rem;
+            color: var(--primary-green);
+            font-weight: 800;
+            line-height: 1.2;
+            /* --- IMPROVEMENT --- */
+            margin: 0 0 1.5rem; /* Adjusted top margin */
+        }
+
+        /* Use shared .product-price class */
+        .product-details-content .product-price {
+            margin-bottom: 1.5rem;
+        }
+
+        .product-details-content .product-detail-description {
+            font-size: 1.1rem;
+            color: var(--gray);
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+        }
+        .quantity-selector label {
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 1.1rem;
+            margin-right: 1rem;
+        }
+        .quantity-selector button {
+            width: 45px;
+            height: 45px;
+            border: 2px solid var(--soft-green);
+            background: var(--white);
+            border-radius: 50%;
+            font-size: 1.2rem;
+            color: var(--primary-green);
+            cursor: pointer;
+            /* --- IMPROVEMENT --- */
+            transition: all 0.2s ease;
+        }
+        .quantity-selector button:hover {
+            background: var(--soft-green);
+            border-color: var(--accent-green);
+        }
+        /* --- NEW RULE --- */
+        .quantity-selector button:active {
+            transform: scale(0.92);
+            background: var(--accent-green);
+            color: var(--white);
+        }
+
+        .quantity-selector input {
+            width: 60px;
+            height: 45px;
+            text-align: center;
+            border: 2px solid var(--soft-green);
+            /* --- IMPROVEMENT --- */
+            border-radius: 12px; /* Softened radius */
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--dark);
+            font-family: 'Poppins', sans-serif;
+            /* --- IMPROVEMENT --- */
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.04);
+            transition: border-color 0.3s ease;
+            /* Hide number input arrows */
+            -moz-appearance: textfield;
+        }
+        .quantity-selector input:focus {
+            outline: none;
+            border-color: var(--accent-green);
+        }
+        .quantity-selector input::-webkit-outer-spin-button,
+        .quantity-selector input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .product-detail-actions {
+            display: grid;
+            grid-template-columns: 1fr auto; /* Changed */
+            gap: 1rem; /* Tightened gap */
+        }
+        .product-detail-actions .btn-wishlist {
+            padding: 1.2rem;
+            font-size: 1.5rem;
+            border: 2px solid var(--soft-green); /* Softer border */
+            background: var(--white);
+            color: var(--primary-green);
+            /* --- IMPROVEMENT --- */
+            width: 60px; /* Explicit size */
+            height: 60px;
+            padding: 0;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+        .product-detail-actions .btn-wishlist .fa-heart {
+            /* --- IMPROVEMENT --- */
+            transition: all 0.3s ease;
+        }
+        .product-detail-actions .btn-wishlist:hover {
+            background: var(--primary-green);
+            color: var(--white);
+            border-color: var(--primary-green);
+            /* --- IMPROVEMENT --- */
+            transform: translateY(-3px); /* Lift effect */
+            box-shadow: 0 8px 20px var(--shadow-light);
+        }
+        /* --- NEW RULE --- */
+        .product-detail-actions .btn-wishlist:hover .fa-heart {
+            color: #e74c3c; /* Red heart on hover */
+            transform: scale(1.1);
+        }
+
+
+        /* --- Product Info Tabs --- */
+        .product-info-tabs {
+            margin-top: 6rem;
+        }
+        .tab-nav {
+            display: flex;
+            gap: 0.5rem; /* Tightened gap */
+            border-bottom: 2px solid var(--soft-green);
+            margin-bottom: 2rem;
+        }
+        .tab-btn {
+            padding: 1rem 2rem;
+            border: none;
+            background: none;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--gray);
+            cursor: pointer;
+            position: relative;
+            bottom: -2px;
+            /* --- IMPROVEMENT --- */
+            border-radius: 8px 8px 0 0; /* Tab shape */
+            transition: all 0.3s ease;
+        }
+        /* --- NEW RULE --- */
+        .tab-btn:not(.active):hover {
+            color: var(--primary-green);
+            background: var(--soft-green);
+        }
+        .tab-btn.active {
+            color: var(--primary-green);
+            /* --- IMPROVEMENT --- */
+            border-bottom: 4px solid var(--primary-green); /* Thicker underline */
+            background: var(--white);
+        }
+        .tab-content {
+            display: none;
+            color: var(--gray);
+            line-height: 1.9;
+            /* --- IMPROVEMENT --- */
+            padding: 1.5rem 0.5rem; /* Added padding */
+        }
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        .tab-content h3 {
+            color: var(--primary-green);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .tab-content ul {
+            margin-left: 1.5rem;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- Related Products Section --- */
+        /* Re-uses .products, .section-header, .products-grid, .product-card from common.css */
+        .related-products {
+            padding: 6rem 5%;
+            background: linear-gradient(180deg, var(--cream) 0%, var(--soft-green) 100%);
+        }
+
+        /* Responsive for Product Detail Page */
+        @media (max-width: 968px) {
+            .product-detail-section {
+                padding-top: 10rem;
+            }
+            .product-detail-container {
+                grid-template-columns: 1fr;
+                gap: 2.5rem;
+            }
+            .product-gallery .gallery-main-image {
+                height: 400px;
+                font-size: 8rem;
+            }
+            .product-details-content h1 {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .product-detail-actions {
+                grid-template-columns: 1fr;
+            }
+            .tab-nav {
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }
+            .tab-btn {
+                font-size: 1rem;
+                padding: 0.8rem 1.2rem;
+                flex-grow: 1; /* Allow tabs to fill space */
+                text-align: center;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <nav id="navbar">
+        <div class="nav-container">
+            <a href="#home" class="logo">
+                <i class="fas fa-leaf"></i>
+                NatureHeals
+            </a>
+            
+            <div class="nav-menu" id="nav-menu">
+                <ul class="nav-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#products">Products</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#blog">Blog</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+                <div class="nav-icons">
+                    <i class="fas fa-search" role="button" aria-label="Search"></i>
+                    <i class="fas fa-user" role="button" aria-label="User account"></i>
+                    <a href="cart.html">
+                    <i class="fas fa-shopping-cart" style="position: relative;" role="button" aria-label="Shopping cart with 3 items">
+                        <span class="cart-badge">3</span>
+                    </i>
+                    </a>
+                </div>
+            </div>
+            
+            <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+    <div class="menu-overlay" id="menu-overlay"></div>
+
+    <main>
+        <section class="product-detail-section">
+            <div class="product-detail-container">
+                <div class="product-gallery">
+                    <div class="gallery-main-image">
+                        <i class="fas fa-mortar-pestle"></i>
+                    </div>
+                    <div class="gallery-thumbnails">
+                        <div class="thumbnail-item active">
+                            <i class="fas fa-mortar-pestle"></i>
+                        </div>
+                        <div class="thumbnail-item">
+                            <i class="fas fa-pills"></i>
+                        </div>
+                        <div class="thumbnail-item">
+                            <i class="fas fa-vial"></i>
+                        </div>
+                        <div class="thumbnail-item">
+                            <i class="fas fa-leaf"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-details-content">
+                    <span class="product-category">Immunity</span>
+                    <h1>Turmeric Complex</h1>
+                    <div class="product-price">
+                        <span class="price-current">$24.99</span>
+                        <span class="price-old">$34.99</span>
+                        <span class="discount-badge">-29%</span>
+                    </div>
+                    <p class="product-detail-description">
+                        A powerful blend of organic turmeric root and black pepper extract to support a healthy inflammatory response, joint health, and antioxidant activity. Our most potent formula for daily wellness.
+                    </p>
+
+                    <div class="quantity-selector">
+                        <label for="quantity">Quantity:</label>
+                        <button class="quantity-btn" id="decrease-qty" aria-label="Decrease quantity">-</button>
+                        <input type="number" id="quantity" value="1" min="1" readonly>
+                        <button class="quantity-btn" id="increase-qty" aria-label="Increase quantity">+</button>
+                    </div>
+
+                    <div class="product-detail-actions">
+                        <button class="btn btn-primary">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span>Add to Cart</span>
+                        </button>
+                        <button class="btn-wishlist" aria-label="Add to wishlist">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-info-tabs">
+                <nav class="tab-nav">
+                    <button class="tab-btn active" data-tab="description">Description</button>
+                    <button class="tab-btn" data-tab="ingredients">Ingredients</button>
+                    <button class="tab-btn" data-tab="reviews">Reviews (3)</button>
+                </nav>
+                <div class="tab-content active" id="description">
+                    <h3>Powerful Natural Support</h3>
+                    <p>Our Turmeric Complex is formulated for maximum bioavailability. We use a patented extraction process to concentrate the active curcuminoids, and combine it with BioPerine® (black pepper extract) which has been clinically shown to increase absorption by up to 2000%.</p>
+                    <p>This formula is designed to provide comprehensive support for your body's natural inflammatory response, helping to maintain joint comfort and mobility. As a potent antioxidant, it also helps neutralize free radicals, supporting overall health and vitality.</p>
+                </div>
+                <div class="tab-content" id="ingredients">
+                    <h3>Pure & Potent Ingredients</h3>
+                    <p>Serving Size: 2 Capsules</p>
+                    <ul>
+                        <li><strong>Organic Turmeric Root Powder (Curcuma longa):</strong> 1200mg</li>
+                        <li><strong>Turmeric 95% Curcuminoid Extract:</strong> 150mg</li>
+                        <li><strong>BioPerine® (Black Pepper Extract):</strong> 10mg</li>
+                    </ul>
+                    <p><strong>Other Ingredients:</strong> Vegetable Cellulose (Capsule), Organic Rice Flour.
+                    <br>Non-GMO, Gluten-Free, Soy-Free, and 100% Vegan.</p>
+                </div>
+                <div class="tab-content" id="reviews">
+                    <h3>Customer Reviews</h3>
+                    <p>Show a list of customer reviews here. (This is a placeholder)</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="related-products products"> <div class="section-header reveal">
+            <p class="section-subtitle">You Might Also Like</p>
+            <h2 class="section-title">Related Products</h2>
+        </div>
+        <div class="products-grid">
+            <div class="product-card reveal">
+                <a href="product.html">
+                <div class="product-image">
+                    <i class="fas fa-seedling"></i>
+                    <span class="product-badge">New</span>
+                </div>
+                <div class="product-info">
+                    <span class="product-category">Digestive Health</span>
+                    <h3><a href="product.html">Ginger Root Extract</a></h3>
+                    <div class="product-price">
+                        <span class="price-current">$19.99</span>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn-cart"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+                        <button class="btn-wishlist" aria-label="Add to wishlist"><i class="far fa-heart"></i></button>
+                    </div>
+                </div>
+                </a>
+            </div>
+            <div class="product-card reveal">
+                <a href="product.html">
+
+                <div class="product-image">
+                    <i class="fas fa-cannabis"></i>
+                </div>
+                <div class="product-info">
+                    <span class="product-category">Wellness</span>
+                    <h3><a href="product.html">Ashwagandha Blend</a></h3>
+                    <div class="product-price">
+                        <span class="price-current">$29.99</span>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn-cart"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+                        <button class="btn-wishlist" aria-label="Add to wishlist"><i class="far fa-heart"></i></button>
+                    </div>
+                </div>
+                </a>
+            </div>
+            <div class="product-card reveal">
+                <a href="product.html">
+
+                <div class="product-image">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <div class="product-info">
+                    <span class="product-category">Heart Health</span>
+                    <h3><a href="product.html">Garlic Capsules</a></h3>
+                    <div class="product-price">
+                        <span class="price-current">$16.99</span>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn-cart"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+                        <button class="btn-wishlist" aria-label="Add to wishlist"><i class="far fa-heart"></i></button>
+                    </div>
+                </div>
+                </a>
+            </div>
+            <div class="product-card reveal">
+                <a href="product.html">
+
+                <div class="product-image">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <div class="product-info">
+                    <span class="product-category">Focus</span>
+                    <h3><a href="product.html">Lion's Mane</a></h3>
+                    <div class="product-price">
+                        <span class="price-current">$32.99</span>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn-cart"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+                        <button class="btn-wishlist" aria-label="Add to wishlist"><i class="far fa-heart"></i></button>
+                    </div>
+                </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>About NatureHeals</h3>
+                <p>We believe in the power of nature to heal and restore. Our mission is to provide premium organic herbal products that enhance your wellbeing naturally.</p>
+                <div class="social-icons">
+                    <a href="#" class="fab fa-facebook" aria-label="Facebook"></a>
+                    <a href="#" class="fab fa-instagram" aria-label="Instagram"></a>
+                    <a href="#" class="fab fa-twitter" aria-label="Twitter"></a>
+                    <a href="#" class="fab fa-youtube" aria-label="Youtube"></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html#products">Shop Products</a></li>
+                    <li><a href="index.html#about">About Us</a></li>
+                    <li><a href="index.html#blog">Health Blog</a></li>
+                    <li><a href="index.html#contact">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Customer Care</h3>
+                <ul>
+                    <li><a href="#">Shipping Policy</a></li>
+                    <li><a href="#">Return Policy</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms & Conditions</a></li>
+                </ul>
+            </div>
+            <div class="footer-section contact-info" id="contact">
+                <h3>Contact Us</h3>
+                <ul>
+                    <li>
+                        <i class="fas fa-map-marker-alt"></i> 
+                        <span>123 Wellness Street, Nature City</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-phone"></i>
+                        <span>+1 (555) 123-4567</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-envelope"></i>
+                        <span>info@natureheals.com</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 NatureHeals. All rights reserved. Made with <i class="fas fa-heart" style="color: var(--accent-green);"></i> for your wellness journey</p>
+        </div>
+    </footer>
+
+    <button class="scroll-to-top" id="scrollToTopBtn" aria-label="Scroll to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script>
+        // --- SHARED JS (NAV, SCROLL, REVEAL) ---
+
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const targetId = this.getAttribute('href');
+                
+                // Check if it's a link to another page's anchor
+                if(targetId.startsWith("index.html#")) {
+                    window.location.href = targetId;
+                    e.preventDefault();
+                    return;
+                }
+
+                const target = document.querySelector(targetId);
+                
+                if (target) {
+                    e.preventDefault(); // Only prevent default if it's a same-page anchor
+                    const headerOffset = document.getElementById('navbar').offsetHeight + 20;
+                    const elementPosition = target.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                    
+                    if (navMenu.classList.contains('active')) {
+                        closeMobileMenu();
+                    }
+                }
+            });
+        });
+        
+        // Mobile Navigation Toggle
+        const navToggle = document.getElementById('nav-toggle');
+        const navMenu = document.getElementById('nav-menu');
+        const menuOverlay = document.getElementById('menu-overlay');
+
+        function openMobileMenu() {
+            navMenu.classList.add('active');
+            navToggle.classList.add('active');
+            navToggle.setAttribute('aria-expanded', 'true');
+            menuOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMobileMenu() {
+            navMenu.classList.remove('active');
+            navToggle.classList.remove('active');
+            navToggle.setAttribute('aria-expanded', 'false');
+            menuOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        if (navToggle && navMenu && menuOverlay) {
+            navToggle.addEventListener('click', () => {
+                if (navMenu.classList.contains('active')) {
+                    closeMobileMenu();
+                } else {
+                    openMobileMenu();
+                }
+            });
+            
+            menuOverlay.addEventListener('click', closeMobileMenu);
+        }
+        
+        // Scroll to Top Button
+        const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                scrollToTopBtn.classList.add('visible');
+            } else {
+                scrollToTopBtn.classList.remove('visible');
+            }
+        });
+
+        scrollToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // On-Scroll Reveal Animation Logic
+        const revealElements = document.querySelectorAll('.reveal');
+
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        revealElements.forEach(el => {
+            revealObserver.observe(el);
+        });
+
+        // --- PAGE-SPECIFIC JS (PRODUCT PAGE) ---
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // Quantity Selector
+            const qtyInput = document.getElementById('quantity');
+            const increaseBtn = document.getElementById('increase-qty');
+            const decreaseBtn = document.getElementById('decrease-qty');
+
+            if(qtyInput && increaseBtn && decreaseBtn) {
+                increaseBtn.addEventListener('click', () => {
+                    let currentVal = parseInt(qtyInput.value);
+                    qtyInput.value = currentVal + 1;
+                });
+                
+                decreaseBtn.addEventListener('click', () => {
+                    let currentVal = parseInt(qtyInput.value);
+                    if (currentVal > 1) {
+                        qtyInput.value = currentVal - 1;
+                    }
+                });
+            }
+
+            // Product Info Tabs
+            const tabContainer = document.querySelector('.product-info-tabs');
+            if(tabContainer) {
+                const tabButtons = tabContainer.querySelectorAll('.tab-btn');
+                const tabContents = tabContainer.querySelectorAll('.tab-content');
+
+                tabButtons.forEach(button => {
+                    button.addEventListener('click', () => {
+                        const targetTab = button.getAttribute('data-tab');
+
+                        // Update buttons
+                        tabButtons.forEach(btn => btn.classList.remove('active'));
+                        button.classList.add('active');
+
+                        // Update content
+                        tabContents.forEach(content => {
+                            if(content.id === targetTab) {
+                                content.classList.add('active');
+                            } else {
+                                content.classList.remove('active');
+                            }
+                        });
+                    });
+                });
+            }
+
+            // Testimonial slider logic is absent, so the `if (!slider) return;`
+            // in the original script would simply cause it to be skipped.
+        });
+    </script>
+</body>
+</html>

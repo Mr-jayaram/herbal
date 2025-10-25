@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice #NH120525 - NatureHeals</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <style>
+        /* --- STYLES SPECIFIC TO INVOICE.HTML --- */
+
+        .invoice-section {
+            padding: 3rem 0;
+            max-width: 900px; /* Standard A4-ish width */
+            margin: 0 auto;
+        }
+        
+        /* Section header is already in common.css */
+
+        .invoice-container {
+            background: var(--white);
+            border: 1px solid var(--soft-green);
+            border-radius: 15px; /* Less rounded than cards */
+            padding: 3rem;
+            box-shadow: 0 10px 30px var(--shadow-light);
+        }
+
+        .invoice-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid var(--soft-green);
+        }
+        
+        .invoice-logo-wrapper .logo { /* Reuse logo styles */
+             font-size: 2rem;
+             margin-bottom: 0.5rem;
+        }
+        .invoice-logo-wrapper p {
+            color: var(--gray);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .invoice-details {
+            text-align: right;
+        }
+        .invoice-details h2 {
+            font-size: 2.2rem;
+            color: var(--primary-green);
+            margin: 0 0 0.5rem 0;
+            text-transform: uppercase;
+        }
+        .invoice-details p {
+            color: var(--gray);
+            font-size: 1rem;
+            margin: 0.2rem 0;
+            line-height: 1.5;
+        }
+        .invoice-details strong {
+            color: var(--dark);
+        }
+
+        .invoice-addresses {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        .address-block h4 {
+            font-size: 1.1rem;
+            color: var(--primary-green);
+            margin-bottom: 0.8rem;
+        }
+        .address-block p {
+            color: var(--dark);
+            font-size: 1rem;
+            line-height: 1.7;
+            margin: 0;
+        }
+
+        /* Invoice Items Table */
+        .invoice-items-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 3rem;
+        }
+        .invoice-items-table thead {
+            background-color: var(--soft-green);
+        }
+        .invoice-items-table th {
+            text-align: left;
+            padding: 1rem 1.2rem;
+            color: var(--primary-green);
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid var(--accent-green);
+        }
+        .invoice-items-table td {
+            padding: 1rem 1.2rem;
+            vertical-align: top;
+            border-bottom: 1px solid var(--soft-green);
+            font-size: 1rem;
+            color: var(--dark);
+        }
+        .invoice-items-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+        .invoice-items-table th.align-right,
+        .invoice-items-table td.align-right {
+             text-align: right;
+        }
+        .item-description {
+            font-weight: 600;
+        }
+        .item-category {
+             display: block;
+             font-size: 0.85rem;
+             color: var(--gray);
+        }
+        
+        /* Invoice Totals */
+        .invoice-totals {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 3rem;
+        }
+        .totals-table {
+            width: 40%; /* Adjust as needed */
+            min-width: 250px;
+        }
+        .totals-table td {
+            padding: 0.8rem 0;
+            font-size: 1rem;
+        }
+        .totals-table tr td:first-child {
+             color: var(--gray);
+             text-align: right;
+             padding-right: 1.5rem;
+        }
+        .totals-table tr td:last-child {
+             color: var(--dark);
+             font-weight: 600;
+             text-align: right;
+        }
+        .totals-table tr.grand-total td {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary-green);
+            padding-top: 1rem;
+            border-top: 2px solid var(--soft-green);
+        }
+        
+        /* Notes & Actions */
+        .invoice-notes {
+            margin-bottom: 3rem;
+            border-top: 1px dashed var(--soft-green);
+            padding-top: 1.5rem;
+        }
+        .invoice-notes h5 {
+            font-size: 1rem;
+            color: var(--primary-green);
+            margin-bottom: 0.5rem;
+        }
+        .invoice-notes p {
+            color: var(--gray);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+        
+        .invoice-actions {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            border-top: 2px solid var(--soft-green);
+            padding-top: 2rem;
+        }
+        .invoice-actions .btn {
+            padding: 1rem 2rem;
+            font-size: 0.95rem;
+        }
+        /* Loading state for download button */
+        .btn.loading {
+             cursor: not-allowed;
+             opacity: 0.7;
+        }
+        .btn.loading .fa-spinner {
+             margin-left: 0.5rem;
+             animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+             0% { transform: rotate(0deg); }
+             100% { transform: rotate(360deg); }
+        }
+
+
+        /* Print Styles (Basic) */
+        @media print {
+            body {
+                padding: 0;
+                background: none;
+                font-size: 10pt; /* Smaller font for print */
+                color: #000;
+            }
+            nav, footer, .scroll-to-top, .section-header, .invoice-actions {
+                display: none !important;
+            }
+            .invoice-section {
+                padding: 1cm; /* Margins for printing */
+                max-width: 100%;
+                box-shadow: none;
+                border: none;
+            }
+            .invoice-container {
+                box-shadow: none;
+                border: none;
+                padding: 0;
+            }
+            .invoice-header, .invoice-addresses, .invoice-items-table, .invoice-totals, .invoice-notes {
+                margin-bottom: 1.5cm;
+            }
+            .invoice-items-table th {
+                background-color: #eee !important; /* Ensure background prints */
+                -webkit-print-color-adjust: exact; /* Chrome/Safari */
+                print-color-adjust: exact; /* Standard */
+                 color: #333;
+                 border-bottom: 1px solid #ccc;
+            }
+            .invoice-items-table td {
+                 border-bottom: 1px solid #eee;
+                 color: #333;
+            }
+             .totals-table tr.grand-total td {
+                 border-top: 1px solid #ccc;
+             }
+             :root { /* Override colors for print */
+                --primary-green: #333;
+                --gray: #555;
+                --dark: #000;
+                --soft-green: #eee;
+                --accent-green: #ccc;
+             }
+             .invoice-logo-wrapper .logo,
+             .invoice-details h2,
+             .address-block h4,
+             .totals-table tr.grand-total td {
+                color: #000;
+             }
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .invoice-section {
+                 padding-top: 10rem;
+            }
+            .invoice-header {
+                 flex-direction: column;
+                 gap: 1.5rem;
+                 align-items: flex-start;
+            }
+            .invoice-details {
+                 text-align: left;
+                 width: 100%;
+            }
+            .invoice-addresses {
+                 grid-template-columns: 1fr;
+                 gap: 1.5rem;
+            }
+            .invoice-container {
+                 padding: 2rem;
+            }
+            .invoice-items-table {
+                font-size: 0.9rem; /* Slightly smaller text */
+            }
+            .invoice-items-table th, .invoice-items-table td {
+                padding: 0.8rem;
+            }
+            .totals-table {
+                width: 60%;
+            }
+            .invoice-actions {
+                flex-direction: column;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    
+    <main>
+        <section class="invoice-section">
+            
+
+            <div class="invoice-container reveal" id="invoiceToPrint"> 
+                <div class="invoice-header">
+                    <div class="invoice-logo-wrapper">
+                         <a href="index.html" class="logo">
+                            <i class="fas fa-leaf"></i>
+                            NatureHeals
+                        </a>
+                        <p>
+                            123 Wellness Street<br>
+                            Nature City, CA 90210<br>
+                            info@natureheals.com<br>
+                            +1 (555) 123-4567
+                        </p>
+                    </div>
+                    <div class="invoice-details">
+                        <h2>Invoice</h2>
+                        <p><strong>Invoice #:</strong> INV-NH120525</p>
+                        <p><strong>Order #:</strong> NH120525</p>
+                        <p><strong>Date Issued:</strong> Oct 25, 2025</p>
+                        <p><strong>Date Due:</strong> Paid</p>
+                    </div>
+                </div>
+
+                <div class="invoice-addresses">
+                    <div class="address-block billing-address">
+                        <h4>Bill To:</h4>
+                        <p>
+                            John M. Doe<br>
+                            123 Billing Ave<br>
+                            Apartment 4B<br>
+                            Testville, CA 90210<br>
+                            United States<br>
+                            john.doe@example.com
+                        </p>
+                    </div>
+                     <div class="address-block shipping-address">
+                        <h4>Ship To:</h4>
+                        <p>
+                            John M. Doe<br>
+                            123 Billing Ave<br>
+                            Apartment 4B<br>
+                            Testville, CA 90210<br>
+                            United States
+                        </p>
+                    </div>
+                </div>
+
+                <table class="invoice-items-table">
+                    <thead>
+                        <tr>
+                            <th>Description</th>
+                            <th class="align-right">Qty</th>
+                            <th class="align-right">Unit Price</th>
+                            <th class="align-right">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <span class="item-description">Turmeric Complex</span>
+                                <span class="item-category">Immunity</span>
+                            </td>
+                            <td class="align-right">1</td>
+                            <td class="align-right">$24.99</td>
+                            <td class="align-right">$24.99</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="item-description">Ashwagandha Blend</span>
+                                <span class="item-category">Wellness</span>
+                            </td>
+                            <td class="align-right">2</td>
+                            <td class="align-right">$29.99</td>
+                            <td class="align-right">$59.98</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="item-description">Ginger Root Extract</span>
+                                <span class="item-category">Digestive Health</span>
+                            </td>
+                            <td class="align-right">1</td>
+                            <td class="align-right">$19.99</td>
+                            <td class="align-right">$19.99</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="invoice-totals">
+                    <table class="totals-table">
+                        <tbody>
+                            <tr>
+                                <td>Subtotal</td>
+                                <td>$104.96</td>
+                            </tr>
+                            <tr>
+                                <td>Shipping</td>
+                                <td>$0.00</td>
+                            </tr>
+                            <tr>
+                                <td>Tax (0%)</td>
+                                <td>$0.00</td>
+                            </tr>
+                            <tr class="grand-total">
+                                <td>Total Paid</td>
+                                <td>$104.96</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="invoice-notes">
+                    <h5>Notes</h5>
+                    <p>Thank you for your order! We hope you enjoy the natural benefits of our products. If you have any questions, please contact us at info@natureheals.com.</p>
+                </div>
+            </div> <div class="invoice-actions reveal">
+                <a href="index.html" class="btn btn-secondary">
+                    <i class="fas fa-shopping-cart"></i> Continue Shopping
+                </a>
+                
+                <button class="btn btn-secondary" id="print-invoice-btn">
+                    <i class="fas fa-print"></i> Print Invoice
+                </button>
+                <button class="btn btn-primary" id="download-pdf-btn">
+                    <i class="fas fa-download"></i> Download PDF
+                </button>
+            </div>
+        </section>
+    </main>
+        </section>
+    </main>
+
+  
+    <button class="scroll-to-top" id="scrollToTopBtn" aria-label="Scroll to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+    
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <script>
+        // --- SHARED JS (NAV, SCROLL, REVEAL) ---
+        // (This code is identical to the previous step)
+
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const targetId = this.getAttribute('href');
+                
+                // Check if it's a link to another page's anchor
+                if(targetId.startsWith("index.html#")) {
+                    window.location.href = targetId;
+                    e.preventDefault();
+                    return;
+                }
+
+                const target = document.querySelector(targetId);
+                
+                if (target) {
+                    e.preventDefault(); // Only prevent default if it's a same-page anchor
+                    const headerOffset = document.getElementById('navbar').offsetHeight + 20;
+                    const elementPosition = target.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                    
+                    if (navMenu.classList.contains('active')) {
+                        closeMobileMenu();
+                    }
+                }
+            });
+        });
+        
+        // Mobile Navigation Toggle
+        const navToggle = document.getElementById('nav-toggle');
+        const navMenu = document.getElementById('nav-menu');
+        const menuOverlay = document.getElementById('menu-overlay');
+
+        function openMobileMenu() {
+            navMenu.classList.add('active');
+            navToggle.classList.add('active');
+            navToggle.setAttribute('aria-expanded', 'true');
+            menuOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMobileMenu() {
+            navMenu.classList.remove('active');
+            navToggle.classList.remove('active');
+            navToggle.setAttribute('aria-expanded', 'false');
+            menuOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        if (navToggle && navMenu && menuOverlay) {
+            navToggle.addEventListener('click', () => {
+                if (navMenu.classList.contains('active')) {
+                    closeMobileMenu();
+                } else {
+                    openMobileMenu();
+                }
+            });
+            
+            menuOverlay.addEventListener('click', closeMobileMenu);
+        }
+        
+        // Scroll to Top Button
+        const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                scrollToTopBtn.classList.add('visible');
+            } else {
+                scrollToTopBtn.classList.remove('visible');
+            }
+        });
+
+        scrollToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // On-Scroll Reveal Animation Logic
+        const revealElements = document.querySelectorAll('.reveal');
+
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        revealElements.forEach(el => {
+            revealObserver.observe(el);
+        });
+
+        // --- PAGE-SPECIFIC JS (INVOICE PAGE) ---
+        document.addEventListener('DOMContentLoaded', () => {
+             const printBtn = document.getElementById('print-invoice-btn');
+             const downloadBtn = document.getElementById('download-pdf-btn');
+             const invoiceElement = document.getElementById('invoiceToPrint');
+
+             // Print Button
+             if(printBtn) {
+                 printBtn.addEventListener('click', () => {
+                     window.print();
+                 });
+             }
+
+             // Download PDF Button
+             if(downloadBtn && invoiceElement && window.jspdf && window.html2canvas) {
+                 const { jsPDF } = window.jspdf;
+
+                 downloadBtn.addEventListener('click', () => {
+                     
+                     // Add loading state
+                     downloadBtn.classList.add('loading');
+                     downloadBtn.disabled = true;
+                     downloadBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Downloading...';
+                     
+                     html2canvas(invoiceElement, { 
+                         scale: 2, // Improve resolution
+                         useCORS: true // If images are from external sources
+                     }).then(canvas => {
+                         const imgData = canvas.toDataURL('image/png');
+                         const pdf = new jsPDF({
+                             orientation: 'portrait',
+                             unit: 'mm',
+                             format: 'a4'
+                         });
+
+                         const pdfWidth = pdf.internal.pageSize.getWidth();
+                         const pdfHeight = pdf.internal.pageSize.getHeight();
+                         
+                         const imgProps= pdf.getImageProperties(imgData);
+                         const imgWidth = imgProps.width;
+                         const imgHeight = imgProps.height;
+                         
+                         // Calculate image ratio and scale it to fit A4 width
+                         const ratio = imgWidth / imgHeight;
+                         const scaledWidth = pdfWidth - 20; // A4 width minus 10mm margin each side
+                         const scaledHeight = scaledWidth / ratio;
+                         
+                         let finalHeight = scaledHeight;
+                         if (finalHeight > pdfHeight - 20) { // Check if it exceeds page height
+                             finalHeight = pdfHeight - 20; // Scale down further if needed (unlikely for single invoice)
+                         }
+                         
+                         const x = 10; // 10mm margin from left
+                         const y = 10; // 10mm margin from top
+
+                         pdf.addImage(imgData, 'PNG', x, y, scaledWidth, finalHeight);
+                         pdf.save('invoice-NH120525.pdf');
+
+                     }).catch(err => {
+                         console.error("Error generating PDF:", err);
+                         alert("Sorry, there was an error generating the PDF.");
+                     }).finally(() => {
+                         // Remove loading state
+                         downloadBtn.classList.remove('loading');
+                         downloadBtn.disabled = false;
+                         downloadBtn.innerHTML = '<i class="fas fa-download"></i> Download PDF';
+                     });
+                 });
+             } else {
+                 console.error("PDF generation libraries not loaded or elements not found.");
+                 if(downloadBtn) downloadBtn.style.display = 'none'; // Hide button if libs failed
+             }
+        });
+        
+    </script>
+</body>
+</html>
