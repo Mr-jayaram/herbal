@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>HerbalBlooms - Natural Herbal Remedies</title>
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700;900&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+        :root {
+            --bs-primary: #45c91d;
+            --bs-primary-rgb: 69, 201, 29;
+            --bs-link-color-rgb: 69, 201, 29;
+            --bs-link-hover-color-rgb: 53, 161, 22;
+            --bs-body-font-family: 'Lexend', sans-serif;
+            --bs-body-bg: #f6f8f6;
+            --bs-body-color: #111b0e;
+        }
+
+        [data-bs-theme="dark"] {
+            --bs-body-bg: #152111;
+            --bs-body-color: #dee2e6;
+            --bs-secondary-bg: #1e2d1c;
+        }
+
+        [data-bs-theme="dark"] .bg-body-tertiary {
+            background-color: #1e2d1c !important;
+        }
+
+        .btn-primary {
+            --bs-btn-bg: #45c91d;
+            --bs-btn-border-color: #45c91d;
+            --bs-btn-hover-bg: #3aae18;
+            --bs-btn-hover-border-color: #3aae18;
+            --bs-btn-active-bg: #349a15;
+            --bs-btn-active-border-color: #349a15;
+        }
+
+        .btn-outline-primary {
+            --bs-btn-color: #45c91d;
+            --bs-btn-border-color: #45c91d;
+            --bs-btn-hover-bg: #45c91d;
+            --bs-btn-hover-border-color: #45c91d;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, rgba(69, 201, 29, 0.1) 0%, rgba(69, 201, 29, 0.05) 100%);
+            padding: 80px 0;
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: rgba(69, 201, 29, 0.1);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+        }
+        header{
+            padding: 15px !important;
+        }
+
+        .feature-icon .material-symbols-outlined {
+            font-size: 40px;
+            color: var(--bs-primary);
+        }
+
+        .card-img-top {
+            height: 220px;
+            object-fit: cover;
+        }
+
+        .card {
+            border-radius: 16px;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15) !important;
+            transition: all 0.3s ease;
+        }
+
+        .card .overflow-hidden {
+            border-top-left-radius: 16px;
+            border-top-right-radius: 16px;
+        }
+
+        .overflow-hidden {
+            overflow: hidden;
+        }
+
+        .category-card {
+            border-radius: 16px;
+            overflow: hidden;
+            position: relative;
+            height: 240px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .category-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.3) 100%);
+            display: flex;
+            align-items: flex-end;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .category-card:hover .category-overlay {
+            background: linear-gradient(to top, rgba(69, 201, 29, 0.8) 0%, rgba(69, 201, 29, 0.4) 100%);
+        }
+
+        .testimonial-card {
+            border: none;
+            border-radius: 16px;
+            background: rgba(69, 201, 29, 0.05);
+        }
+
+        .stat-number {
+            font-size: clamp(2.25rem, 6vw, 3rem);
+            font-weight: 900;
+            color: var(--bs-primary);
+            line-height: 1;
+        }
+
+        .footer-links .nav-link {
+            transition: all 0.2s ease-in-out;
+        }
+
+        .footer-links .nav-link:hover {
+            color: var(--bs-primary) !important;
+            text-decoration: underline;
+            transform: translateX(4px);
+        }
+
+        .pagination {
+            --bs-pagination-color: var(--bs-primary);
+            --bs-pagination-hover-color: var(--bs-primary);
+            --bs-pagination-focus-color: var(--bs-primary);
+            --bs-pagination-active-bg: var(--bs-primary);
+            --bs-pagination-active-border-color: var(--bs-primary);
+        }
+
+        /* --- Styles for Pagination Icons --- */
+        .pagination .page-link .material-symbols-outlined {
+            font-size: 1.25em;
+            /* Make icons slightly larger than text */
+            margin-top: -2px;
+            /* Fine-tune alignment */
+        }
+
+        /* --- Styles for Testimonial Carousel --- */
+        #testimonialCarousel .carousel-control-prev,
+        #testimonialCarousel .carousel-control-next {
+            opacity: 0.8;
+            transition: opacity 0.2s ease;
+            width: 8%;
+            /* Give a bit more space from the edge */
+        }
+
+        #testimonialCarousel .carousel-control-prev:hover,
+        #testimonialCarousel .carousel-control-next:hover,
+        #testimonialCarousel .carousel-control-prev:focus,
+        #testimonialCarousel .carousel-control-next:focus {
+            opacity: 1;
+        }
+
+        /* Position controls vertically centered */
+        #testimonialCarousel .carousel-control-prev,
+        #testimonialCarousel .carousel-control-next {
+            top: 50%;
+            transform: translateY(-50%);
+            height: 60px;
+            /* Clickable area */
+        }
+
+        .offer-bar {
+            background-color: var(--bs-primary);
+            color: white;
+        }
+
+        .offer-bar a {
+            color: white;
+            text-decoration: underline;
+            font-weight: 600;
+        }
+
+        .offer-bar a:hover {
+            color: #f6f8f6;
+        }
+
+        /* --- New Header/Footer Rules --- */
+        .header-icon {
+            width: 40px;
+            height: 40px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .footer-social-links a {
+            color: var(--bs-secondary-color);
+            /* Updated for better theme compatibility */
+            font-size: 1.5rem;
+            transition: all 0.2s ease;
+        }
+
+        .footer-social-links a:hover {
+            color: var(--bs-primary);
+            transform: translateY(-2px);
+        }
+
+        .footer-payment-icons {
+            font-size: 2.25rem;
+            color: #adb5bd;
+            /* A subtle, secondary-like color */
+        }
+
+        /* --- New Subscribe Form Rules --- */
+        .subscribe-form .form-control,
+        .subscribe-form .btn {
+            border: 0;
+        }
+
+        .subscribe-form .btn {
+            border-radius: 50rem;
+        }
+
+        /* --- New Search Modal Rules --- */
+        #searchModal .modal-content {
+            border-radius: 1rem;
+        }
+
+        #searchModal .form-control {
+            border: 0;
+            box-shadow: none;
+            font-size: 1.25rem;
+            padding: 1.5rem;
+        }
+
+        #searchResultsList {
+            display: none;
+            /* Hidden by default */
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+
+        .search-result-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            text-decoration: none;
+            color: var(--bs-body-color);
+            transition: background-color 0.2s ease;
+        }
+
+        .search-result-item:hover {
+            background-color: var(--bs-body-tertiary);
+        }
+
+        .search-result-item img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-right: 1rem;
+        }
+
+        /* --- Remove Mobile Toggle Focus --- */
+        .navbar-toggler:focus {
+            box-shadow: none;
+            outline: none;
+            border: none;
+        }
+
+        /* --- New Hero Carousel Rules --- */
+        #heroImageCarousel .carousel-item img {
+            height: 500px;
+            /* Sets a consistent, tall height for the hero image */
+            object-fit: cover;
+            /* Ensures the image covers the area without distortion */
+            width: 100%;
+        }
+
+        /* Responsive height for smaller screens */
+        @media (max-width: 992px) {
+            /* lg breakpoint (tablets) */
+            #heroImageCarousel .carousel-item img {
+                height: 400px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            /* md breakpoint (mobile) */
+            #heroImageCarousel .carousel-item img {
+                height: 350px;
+            }
+        }
+
+        /* --- New Dropdown Menu Rules --- */
+        .dropdown-menu {
+            border-radius: 12px;
+            /* Softer, rounded corners */
+            border: 0;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            /* Softer, modern shadow */
+            animation: fadeIn 0.2s ease-out;
+            /* Simple fade-in animation */
+        }
+
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            /* Space for icons */
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+        }
+
+        .dropdown-item i {
+            width: 16px;
+            /* Align text even if icons vary */
+        }
+
+        /* Animation keyframes */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* --- Mobile Submenu --- */
+        #mobileShopCollapse .nav-link {
+            font-size: 1rem !important;
+            /* Makes sub-items smaller */
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+        }
+    </style>
+</head>
+
+<body class="bg-body-tertiary">
+
+    <div class="offer-bar">
+        <div class="container-xl text-center py-2 small fw-medium">
+            ✨ <strong>Free Shipping</strong> on all orders over $50! <a href="#"
+                class="ms-2 text-decoration-underline">Shop Now</a> ✨
+        </div>
+    </div>
+    <header class="navbar navbar-expand-md sticky-top bg-body-tertiary bg-opacity-80 backdrop-blur border-bottom">
+        <div class="container-xl">
+            <a class="navbar-brand d-flex align-items-center fw-bold" href="#">
+                <span class="material-symbols-outlined fs-4 me-2" style="color: var(--bs-primary);">spa</span>
+                HerbalBloom
+            </a>
+
+            <button aria-controls="mobileOffcanvas" aria-expanded="false" aria-label="Toggle navigation"
+                class="navbar-toggler" data-bs-target="#mobileOffcanvas" data-bs-toggle="offcanvas" type="button">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a aria-current="page" class="nav-link active" href="#">Home</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Shop
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-droplet"></i>Tinctures</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-cup-hot"></i>Herbal Teas</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-bandaid"></i>Balms & Salves</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-capsule"></i>Supplements</a></li>
+                            <li>
+                                <hr class="dropdown-divider m-2">
+                            </li>
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-shop"></i>Shop All</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Blog</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contact</a>
+                    </li>
+                </ul>
+
+                <div class="d-flex align-items-center gap-2 mt-3 mt-md-0">
+                    <button class="btn btn-light d-none d-md-flex align-items-center gap-2" type="button"
+                        data-bs-toggle="modal" data-bs-target="#searchModal"
+                        style="min-width: 250px; justify-content: start; color: var(--bs-secondary-color);">
+                        <i class="bi bi-search"></i>
+                        <span class="text-secondary">Search</span>
+                    </button>
+
+                    <div class="dropdown">
+                        <button class="btn btn-light rounded-circle header-icon" type="button" aria-label="Account"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-person fs-5"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    <i class="bi bi-person-circle"></i>
+                                    My Account
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    <i class="bi bi-receipt"></i>
+                                    Order History
+                                </a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider m-2">
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    <i class="bi bi-box-arrow-in-right"></i>
+                                    Login / Sign Up
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <button class="btn btn-light rounded-circle header-icon position-relative"
+                        aria-label="Shopping Bag">
+                        <i class="bi bi-bag fs-5"></i>
+                        <span
+                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary">3</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="offcanvas offcanvas-start d-md-none" tabindex="-1" id="mobileOffcanvas"
+        aria-labelledby="mobileOffcanvasLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title d-flex align-items-center" id="mobileOffcanvasLabel">
+                <span class="material-symbols-outlined fs-4 me-2" style="color: var(--bs-primary);">spa</span>
+                HerbalBloom
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <button class="btn btn-light btn-lg d-flex w-100 align-items-center justify-content-center gap-2 mb-4"
+                type="button" data-bs-toggle="modal" data-bs-target="#searchModal" data-bs-dismiss="offcanvas">
+                <i class="bi bi-search"></i>
+                Search Products...
+            </button>
+
+            <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                <li class="nav-item">
+                    <a aria-current="page" class="nav-link active fs-5" href="#">Home</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link fs-5 d-flex justify-content-between align-items-center"
+                        data-bs-toggle="collapse" href="#mobileShopCollapse" role="button" aria-expanded="false"
+                        aria-controls="mobileShopCollapse">
+                        Shop
+                        <i class="bi bi-chevron-down small"></i>
+                    </a>
+                    <div class="collapse" id="mobileShopCollapse">
+                        <ul class="nav flex-column ps-4">
+                            <li class="nav-item"><a href="#" class="nav-link text-secondary"><i
+                                        class="bi bi-droplet"></i> Tinctures</a></li>
+                            <li class="nav-item"><a href="#" class="nav-link text-secondary"><i
+                                        class="bi bi-cup-hot"></i> Herbal Teas</a></li>
+                            <li class="nav-item"><a href="#" class="nav-link text-secondary"><i
+                                        class="bi bi-bandaid"></i> Balms & Salves</a></li>
+                            <li class="nav-item"><a href="#" class="nav-link text-secondary"><i
+                                        class="bi bi-capsule"></i> Supplements</a></li>
+                            <li class="nav-item"><a href="#" class="nav-link text-secondary"><i class="bi bi-shop"></i>
+                                    Shop All</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link fs-5" href="#">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link fs-5" href="#">Blog</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link fs-5" href="#">Contact</a>
+                </li>
+            </ul>
+
+            <hr>
+
+            <div class="d-flex flex-column gap-2">
+                <a href="#" class="btn btn-light btn-lg d-flex align-items-center justify-content-start gap-2">
+                    <span class="material-symbols-outlined">person</span>
+                    Account
+                </a>
+                <a href="#"
+                    class="btn btn-light btn-lg position-relative d-flex align-items-center justify-content-start gap-2">
+                    <span class="material-symbols-outlined">shopping_bag</span>
+                    Bag
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary"
+                        style="top: 10px !important;">3</span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <main>
+        <section class="hero-section">
+            <div class="container-xl">
+                <div class="row align-items-center g-5">
+                    <div class="col-lg-6">
+                        <h1 class="display-3 fw-bolder mb-4">Nature's Healing Touch</h1>
+                        <p class="lead text-secondary mb-4">Discover the power of ancient herbal wisdom combined with
+                            modern wellness practices. Our carefully crafted remedies bring nature's finest ingredients
+                            to support your health journey.</p>
+                        <div class="d-flex gap-3 flex-wrap">
+                            <a href="#" class="btn btn-primary btn-lg px-4">Shop Now</a>
+                            <a href="#" class="btn btn-outline-primary btn-lg px-4">Learn More</a>
+                        </div>
+                        <div class="row mt-5 g-4">
+                            <div class="col-sm-4 text-center text-sm-start">
+                                <div class="stat-number">100%</div>
+                                <div class="text-secondary small">Natural</div>
+                            </div>
+                            <div class="col-sm-4 text-center text-sm-start">
+                                <div class="stat-number">500+</div>
+                                <div class="text-secondary small">Products</div>
+                            </div>
+                            <div class="col-sm-4 text-center text-sm-start">
+                                <div class="stat-number">50K+</div>
+                                <div class="text-secondary small">Happy Customers</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div id="heroImageCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active" data-bs-interval="2000">
+                                    <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZK4cQirtkxO19ezTO5N-cykweaLXeQeKqDcA4H4WyTCdITgsq9BwtpxxkAmn15ZdADusR20eI4RVQeyX7kAkgte4hwpu0RG7dlQ5xsozAJo44oKYOGa7Jqzrtxy06jBJxbJHz4n03ecHlumbynLms9NZm4M7HxGnHZXcCG6_7DJ5AuiUFy_M_EKddp69-hGacyle8A1pXobzP5q2yHZkU3VWjsDcQxhFcyCGPXwrbqOXD3f5vSvhoTQbej0jTLq0Xm2FOu1WCFrhS"
+                                        class="img-fluid rounded-4 shadow-lg" alt="Herbal remedies">
+                                </div>
+                                <div class="carousel-item" data-bs-interval="2000">
+                                    <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDza6XrSQO9edNDCKzSm-MyqMMSIdRxCjTOVGNeSnEEzhFSFXBbe8jKuS7Gzb_2_U-cn8XgNpir3LqfzP1ZKZ8L9rX2PNg4F5K22Innoxb07GhVh190dy_V7eaY-t7lcXjQp4xwKzhvWp_v3xfZrLdjP4wjaaQxKpAKUKivWPbCvvuqXq3PZVx2kRW_R7afTeWheNKKvBCvRSMw1KFPmlVVPT97ns1Vlz3fM38UoQ0ne-cHMyYZ7GpBxOVykzYY77V_TImkggavpA70"
+                                        class="img-fluid rounded-4 shadow-lg" alt="Natural tinctures">
+                                </div>
+                                <div class="carousel-item" data-bs-interval="2000">
+                                    <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuASdpb-JLnyWGbS47iL9nCf1G_Jfbz8dzN4PS2sAiOT0T5va0cturDRCK_BDbYSqKjIEojeTjQz-8_2TaStsh1PtC5wj8LF34T9HP0g88XP7qaRy0KcNTBz-bMhMmeY1UbNN1Uhc3PQmBa4Evpbsii5UfJ9-AQ6jcmNAlu-rMv0cnQfDuYPgLI75MlnYkVNcfeQThTc-AEn0z_5PFaFEp_WI4NzSRtwS_GR2511x5JUPkAHEMW4MrQ5vt9mQI7zA2qStyDqD2JVkSqp"
+                                        class="img-fluid rounded-4 shadow-lg" alt="Herbal supplements">
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+            </div>
+        </section>
+        <section class="py-5 bg-body">
+            <div class="container-xl py-5">
+                <div class="text-center mb-5">
+                    <h2 class="display-5 fw-bold mb-3">Shop by Category</h2>
+                    <p class="lead text-secondary">Explore our curated collections of natural remedies</p>
+                </div>
+                <div class="row g-4">
+                    <div class="col-md-6 col-lg-3">
+                        <div class="category-card"
+                            style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDza6XrSQO9edNDCKzSm-MyqMMSIdRxCjTOVGNeSnEEzhFSFXBbe8jKuS7Gzb_2_U-cn8XgNpir3LqfzP1ZKZ8L9rX2PNg4F5K22Innoxb07GhVh190dy_V7eaY-t7lcXjQp4xwKzhvWp_v3xfZrLdjP4wjaaQxKpAKUKivWPbCvvuqXq3PZVx2kRW_R7afTeWheNKKvBCvRSMw1KFPmlVVPT97ns1Vlz3fM38UoQ0ne-cHMyYZ7GpBxOVykzYY77V_TImkggavpA70');">
+                            <div class="category-overlay">
+                                <div>
+                                    <h3 class="h4 text-white fw-bold mb-2">Tinctures</h3>
+                                    <a href="#" class="text-white text-decoration-none">Explore →</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="category-card"
+                            style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC6aeoHebrK0jBrTFJX0mYLDpmKFXui2eI7huKr4E9nyxN81lCfBcGgy9jBRM2h9u2i5L8P96kY8XOMqB0BYpjpqDZ8X364BGRCCwoOEFSn0FFCpSPEfQF4jHXW8yD3shGZ42FxKR5P4CGOv1vIKTbi5q441zCMV0klj434gBle73z2O9H_T2qNOvQa6-I9TDBf4wdG-LXILS21EigTCAtNRKcrcEjbqb_UpM_wXmUeRCIBzpXN8FmlwXjHqlp8a3U3u3XO9apSuMNl');">
+                            <div class="category-overlay">
+                                <div>
+                                    <h3 class="h4 text-white fw-bold mb-2">Herbal Teas</h3>
+                                    <a href="#" class="text-white text-decoration-none">Explore →</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="category-card"
+                            style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD_fKdvNKFWAXvjEQyGBU2Y81aE2Ehwqb-h52bFirB2PzeB6To3dgnJua0vEh-ngtAitKJguPDVfIFib0Y0xre6tSNMFkq2542pSq5jdev9GTCezBOjKUXdfCeeyAqpFgxYMZJE7FqN_p_rd4Gl8ikISKgP10gAjQcLNmjjcX6QRjaR7u70yJbKacQVdwI37kg0Jffwd975jL-Bq2mKh7mj-fiOejr5PtWZ9D4w1WikL4WSkALf2RY2QDRxAruA6odtTBkYTKaa2sFp');">
+                            <div class="category-overlay">
+                                <div>
+                                    <h3 class="h4 text-white fw-bold mb-2">Balms & Salves</h3>
+                                    <a href="#" class="text-white text-decoration-none">Explore →</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="category-card"
+                            style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuASdpb-JLnyWGbS47iL9nCf1G_Jfbz8dzN4PS2sAiOT0T5va0cturDRCK_BDbYSqKjIEojeTjQz-8_2TaStsh1PtC5wj8LF34T9HP0g88XP7qaRy0KcNTBz-bMhMmeY1UbNN1Uhc3PQmBa4Evpbsii5UfJ9-AQ6jcmNAlu-rMv0cnQfDuYPgLI75MlnYkVNcfeQThTc-AEn0z_5PFaFEp_WI4NzSRtwS_GR2511x5JUPkAHEMW4MrQ5vt9mQI7zA2qStyDqD2JVkSqp');">
+                            <div class="category-overlay">
+                                <div>
+                                    <h3 class="h4 text-white fw-bold mb-2">Supplements</h3>
+                                    <a href="#" class="text-white text-decoration-none">Explore →</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="py-5">
+            <div class="container-xl py-5">
+                <div class="text-center mb-5">
+                    <h2 class="display-5 fw-bold mb-3">Bestselling Remedies</h2>
+                    <p class="lead text-secondary">Customer favorites for natural wellness</p>
+                </div>
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-4">
+                    <div class="col">
+                        <div class="card h-100 shadow-sm border-0">
+                            <div class="overflow-hidden">
+                                <img class="card-img-top" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDza6XrSQO9edNDCKzSm-MyqMMSIdRxCjTOVGNeSnEEzhFSFXBbe8jKuS7Gzb_2_U-cn8XgNpir3LqfzP1ZKZ8L9rX2PNg4F5K22Innoxb07GhVh190dy_V7eaY-t7lcXjQp4xwKzhvWp_v3xfZrLdjP4wjaaQxKpAKUKivWPbCvvuqXq3PZVx2kRW_R7afTeWheNKKvBCvRSMw1KFPmlVVPT97ns1Vlz3fM38UoQ0ne-cHMyYZ7GpBxOVykzYY77V_TImkggavpA70"
+                                    alt="Calming Lavender Tincture">
+                            </div>
+                            <div class="card-body d-flex flex-column">
+                                <span
+                                    class="badge bg-primary-subtle text-primary mb-2 align-self-start">Bestseller</span>
+                                <h5 class="card-title fw-bold">Calming Lavender Tincture</h5>
+                                <p class="card-text text-secondary small flex-grow-1">A soothing blend to promote restful
+                                    sleep.</p>
+                                <div class="d-flex justify-content-between align-items-center mt-3">
+                                    <span class="h5 fw-bolder mb-0">$24.99</span>
+                                    <a class="btn btn-primary" href="#">Add to Cart</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card h-100 shadow-sm border-0">
+                            <div class="overflow-hidden">
+                                <img class="card-img-top" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6aeoHebrK0jBrTFJX0mYLDpmKFXui2eI7huKr4E9nyxN81lCfBcGgy9jBRM2h9u2i5L8P96kY8XOMqB0BYpjpqDZ8X364BGRCCwoOEFSn0FFCpSPEfQF4jHXW8yD3shGZ42FxKR5P4CGOv1vIKTbi5q441zCMV0klj434gBle73z2O9H_T2qNOvQa6-I9TDBf4wdG-LXILS21EigTCAtNRKcrcEjbqb_UpM_wXmUeRCIBzpXN8FmlwXjHqlp8a3U3u3XO9apSuMNl"
+                                    alt="Immunity Boost Tea">
+                            </div>
+                            <div class="card-body d-flex flex-column">
+                                <span class="badge bg-primary-subtle text-primary mb-2 align-self-start">New</span>
+                                <h5 class="card-title fw-bold">Immunity Boost Tea</h5>
+                                <p class="card-text text-secondary small flex-grow-1">Herbal blend to support your immune
+                                    system.</p>
+                                <div class="d-flex justify-content-between align-items-center mt-3">
+                                    <span class="h5 fw-bolder mb-0">$18.50</span>
+                                    <a class="btn btn-primary" href="#">Add to Cart</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card h-100 shadow-sm border-0">
+                            <div class="overflow-hidden">
+                                <img class="card-img-top" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD_fKdvNKFWAXvjEQyGBU2Y81aE2Ehwqb-h52bFirB2PzeB6To3dgnJua0vEh-ngtAitKJguPDVfIFib0Y0xre6tSNMFkq2542pSq5jdev9GTCezBOjKUXdfCeeyAqpFgxYMZJE7FqN_p_rd4Gl8ikISKgP10gAjQcLNmjjcX6QRjaR7u70yJbKacQVdwI37kg0Jffwd975jL-Bq2mKh7mj-fiOejr5PtWZ9D4w1WikL4WSkALf2RY2QDRxAruA6odtTBkYTKaa2sFp"
+                                    alt="Soothing Mint Balm">
+                            </div>
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title fw-bold mt-4">Soothing Mint Balm</h5>
+                                <p class="card-text text-secondary small flex-grow-1">For muscle aches and joint relief.
+                                </p>
+                                <div class="d-flex justify-content-between align-items-center mt-3">
+                                    <span class="h5 fw-bolder mb-0">$21.00</span>
+                                    <a class="btn btn-primary" href="#">Add to Cart</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card h-100 shadow-sm border-0">
+                            <div class="overflow-hidden">
+                                <img class="card-img-top" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBF7SoEz847A_d7_G1dtowdsFgfvfZ-IGTaNFfoqFQe9aWJVjGlSQzAXC60cWx_7AsAE6M9aIFUHng192GmpBsAIhTKEtbix2h3cWmw8wKIpWD2V_pxnfhnwz5S7yeP2bRE51OhsKdqOqZIoP13vZWxYWwRiQP-Jxf9hJ65prwcUHpfquAYJLlLa6038AW0GF6orpieAtURPK5LYLVCzMj9es4Gzc2UXsZPebb2vOMe7pfa14ngeLLSf8JFVVbKQW1UiaRGM0fwr-7y"
+                                    alt="Calendula Healing Salve">
+                            </div>
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title fw-bold mt-4">Calendula Healing Salve</h5>
+                                <p class="card-text text-secondary small flex-grow-1">For dry skin, cuts, and
+                                    irritations.</p>
+                                <div class="d-flex justify-content-between align-items-center mt-3">
+                                    <span class="h5 fw-bolder mb-0">$19.99</span>
+                                    <a class="btn btn-primary" href="#">Add to Cart</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-5 bg-body">
+            <div class="container-xl py-5">
+                <div class="text-center mb-5">
+                    <h2 class="display-5 fw-bold mb-3">Explore All Products</h2>
+                    <p class="lead text-secondary">Find the perfect remedy for your wellness needs</p>
+                </div>
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-4">
+                    <div class="col">
+                        <div class="card h-100 shadow-sm border-0">
+                            <div class="overflow-hidden">
+                                <img class="card-img-top" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDza6XrSQO9edNDCKzSm-MyqMMSIdRxCjTOVGNeSnEEzhFSFXBbe8jKuS7Gzb_2_U-cn8XgNpir3LqfzP1ZKZ8L9rX2PNg4F5K22Innoxb07GhVh190dy_V7eaY-t7lcXjQp4xwKzhvWp_v3xfZrLdjP4wjaaQxKpAKUKivWPbCvvuqXq3PZVx2kRW_R7afTeWheNKKvBCvRSMw1KFPmlVVPT97ns1Vlz3fM38UoQ0ne-cHMyYZ7GpBxOVykzYY77V_TImkggavpA70"
+                                    alt="Calming Lavender Tincture">
+                            </div>
+                            <div class="card-body d-flex flex-column">
+                                <span
+                                    class="badge bg-primary-subtle text-primary mb-2 align-self-start">Bestseller</span>
+                                <h5 class="card-title fw-bold">Calming Lavender Tincture</h5>
+                                <p class="card-text text-secondary small flex-grow-1">A soothing blend to promote restful
+                                    sleep.</p>
+                                <div class="d-flex justify-content-between align-items-center mt-3">
+                                    <span class="h5 fw-bolder mb-0">$24.99</span>
+                                    <a class="btn btn-primary" href="#">Add to Cart</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card h-100 shadow-sm border-0">
+                            <div class="overflow-hidden">
+                                <img class="card-img-top" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6aeoHebrK0jBrTFJX0mYLDpmKFXui2eI7huKr4E9nyxN81lCfBcGgy9jBRM2h9u2i5L8P96kY8XOMqB0BYpjpqDZ8X364BGRCCwoOEFSn0FFCpSPEfQF4jHXW8yD3shGZ42FxKR5P4CGOv1vIKTbi5q441zCMV0klj434gBle73z2O9H_T2qNOvQa6-I9TDBf4wdG-LXILS21EigTCAtNRKcrcEjbqb_UpM_wXmUeRCIBzpXN8FmlwXjHqlp8a3U3u3XO9apSuMNl"
+                                    alt="Immunity Boost Tea">
+                            </div>
+                            <div class="card-body d-flex flex-column">
+                                <span class="badge bg-primary-subtle text-primary mb-2 align-self-start">New</span>
+                                <h5 class="card-title fw-bold">Immunity Boost Tea</h5>
+                                <p class="card-text text-secondary small flex-grow-1">Herbal blend to support your immune
+                                    system.</p>
+                                <div class="d-flex justify-content-between align-items-center mt-3">
+                                    <span class="h5 fw-bolder mb-0">$18.50</span>
+                                    <a class="btn btn-primary" href="#">Add to Cart</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card h-100 shadow-sm border-0">
+                            <div class="overflow-hidden">
+                                <img class="card-img-top" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD_fKdvNKFWAXvjEQyGBU2Y81aE2Ehwqb-h52bFirB2PzeB6To3dgnJua0vEh-ngtAitKJguPDVfIFib0Y0xre6tSNMFkq2542pSq5jdev9GTCezBOjKUXdfCeeyAqpFgxYMZJE7FqN_p_rd4Gl8ikISKgP10gAjQcLNmjjcX6QRjaR7u70yJbKacQVdwI37kg0Jffwd975jL-Bq2mKh7mj-fiOejr5PtWZ9D4w1WikL4WSkALf2RY2QDRxAruA6odtTBkYTKaa2sFp"
+                                    alt="Soothing Mint Balm">
+                            </div>
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title fw-bold mt-4">Soothing Mint Balm</h5>
+                                <p class="card-text text-secondary small flex-grow-1">For muscle aches and joint relief.
+                                </p>
+                                <div class="d-flex justify-content-between align-items-center mt-3">
+                                    <span class="h5 fw-bolder mb-0">$21.00</span>
+                                    <a class="btn btn-primary" href="#">Add to Cart</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card h-100 shadow-sm border-0">
+                            <div class="overflow-hidden">
+                                <img class="card-img-top" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBF7SoEz847A_d7_G1dtowdsFgfvfZ-IGTaNFfoqFQe9aWJVjGlSQzAXC60cWx_7AsAE6M9aIFUHng192GmpBsAIhTKEtbix2h3cWmw8wKIpWD2V_pxnfhnwz5S7yeP2bRE51OhsKdqOqZIoP13vZWxYWwRiQP-Jxf9hJ65prwcUHpfquAYJLlLa6038AW0GF6orpieAtURPK5LYLVCzMj9es4Gzc2UXsZPebb2vOMe7pfa14ngeLLSf8JFVVbKQW1UiaRGM0fwr-7y"
+                                    alt="Calendula Healing Salve">
+                            </div>
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title fw-bold mt-4">Calendula Healing Salve</h5>
+                                <p class="card-text text-secondary small flex-grow-1">For dry skin, cuts, and
+                                    irritations.</p>
+                                <div class="d-flex justify-content-between align-items-center mt-3">
+                                    <span class="h5 fw-bolder mb-0">$19.99</span>
+                                    <a class="btn btn-primary" href="#">Add to Cart</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="card h-100 shadow-sm border-0">
+                            <div class="overflow-hidden">
+                                <img class="card-img-top" src="http://googleusercontent.com/profile/picture/6"
+                                    alt="Energizing Ginseng Elixir">
+                            </div>
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title fw-bold mt-4">Energizing Ginseng Elixir</h5>
+                                <p class="card-text text-secondary small flex-grow-1">A potent blend to boost stamina and
+                                    mental focus.</p>
+                                <div class="d-flex justify-content-between align-items-center mt-3">
+                                    <span class="h5 fw-bolder mb-0">$29.99</span>
+                                    <a class="btn btn-primary" href="#">Add to Cart</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card h-100 shadow-sm border-0">
+                            <div class="overflow-hidden">
+                                <img class="card-img-top" src="http://googleusercontent.com/profile/picture/7"
+                                    alt="Elderberry Defense Syrup">
+                            </div>
+                            <div class="card-body d-flex flex-column">
+                                <span
+                                    class="badge bg-primary-subtle text-primary mb-2 align-self-start">Top Rated</span>
+                                <h5 class="card-title fw-bold">Elderberry Defense Syrup</h5>
+                                <p class="card-text text-secondary small flex-grow-1">Powerful immune support packed with
+                                    antioxidants.</p>
+                                <div class="d-flex justify-content-between align-items-center mt-3">
+                                    <span class="h5 fw-bolder mb-0">$26.50</span>
+                                    <a class="btn btn-primary" href="#">Add to Cart</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card h-100 shadow-sm border-0">
+                            <div class="overflow-hidden">
+                                <img class="card-img-top" src="http://googleusercontent.com/profile/picture/8"
+                                    alt="Relax & Unwind Tea">
+                            </div>
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title fw-bold mt-4">Relax & Unwind Tea</h5>
+                                <p class="card-text text-secondary small flex-grow-1">Calming chamomile, rose petals, and
+                                    lavender.</p>
+                                <div class="d-flex justify-content-between align-items-center mt-3">
+                                    <span class="h5 fw-bolder mb-0">$17.00</span>
+                                    <a class="btn btn-primary" href="#">Add to Cart</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card h-100 shadow-sm border-0">
+                            <div class="overflow-hidden">
+                                <img class="card-img-top" src="http://googleusercontent.com/profile/picture/9"
+                                    alt="Arnica Muscle Relief Rub">
+                            </div>
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title fw-bold mt-4">Arnica Muscle Relief Rub</h5>
+                                <p class="card-text text-secondary small flex-grow-1">Warms and soothes sore muscles and
+                                    stiffness.</p>
+                                <div class="d-flex justify-content-between align-items-center mt-3">
+                                    <span class="h5 fw-bolder mb-0">$22.99</span>
+                                    <a class="btn btn-primary" href="#">Add to Cart</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <nav aria-label="All products navigation" class="mt-5 d-flex justify-content-center">
+                    <ul class="pagination pagination-lg">
+                        <li class="page-item mx-1 disabled">
+                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true" aria-label="Previous">
+                                <span class="material-symbols-outlined">chevron_left</span>
+                            </a>
+                        </li>
+                        <li class="page-item mx-1 active" aria-current="page"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item mx-1"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item mx-1"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item mx-1">
+                            <a class="page-link" href="#" aria-label="Next">
+                                <span class="material-symbols-outlined">chevron_right</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+
+            </div>
+        </section>
+        <section class="py-5">
+            <div class="container-xl py-5">
+                <div class="row g-5">
+                    <div class="col-md-6 col-lg-3 text-center">
+                        <div class="feature-icon">
+                            <span class="material-symbols-outlined">eco</span>
+                        </div>
+                        <h3 class="h5 fw-bold mb-3">100% Natural</h3>
+                        <p class="text-secondary">All our products are made with pure, organic ingredients sourced
+                            responsibly.</p>
+                    </div>
+                    <div class="col-md-6 col-lg-3 text-center">
+                        <div class="feature-icon">
+                            <span class="material-symbols-outlined">verified</span>
+                        </div>
+                        <h3 class="h5 fw-bold mb-3">Lab Tested</h3>
+                        <p class="text-secondary">Every batch is tested for quality and purity to ensure the highest
+                            standards.</p>
+                    </div>
+                    <div class="col-md-6 col-lg-3 text-center">
+                        <div class="feature-icon">
+                            <span class="material-symbols-outlined">local_shipping</span>
+                        </div>
+                        <h3 class="h5 fw-bold mb-3">Free Shipping</h3>
+                        <p class="text-secondary">Enjoy free delivery on all orders over $50 across the country.</p>
+                    </div>
+                    <div class="col-md-6 col-lg-3 text-center">
+                        <div class="feature-icon">
+                            <span class="material-symbols-outlined">support_agent</span>
+                        </div>
+                        <h3 class="h5 fw-bold mb-3">Expert Support</h3>
+                        <p class="text-secondary">Our herbalists are here to guide you on your wellness journey.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="py-5">
+            <div class="container-xl py-5">
+                <div class="text-center mb-5">
+                    <h2 class="display-5 fw-bold mb-3">What Our Customers Say</h2>
+                    <p class="lead text-secondary">Real stories from real people</p>
+                </div>
+
+                <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+
+                        <div class="carousel-item active">
+                            <div class="col-md-10 col-lg-8 mx-auto">
+                                <div class="testimonial-card p-4">
+                                    <div class="mb-3">
+                                        <span class="text-warning">★★★★★</span>
+                                    </div>
+                                    <p class="mb-4">"The Calming Lavender Tincture has completely transformed my sleep
+                                        routine. I
+                                        fall asleep faster and wake up refreshed. Highly recommend!"</p>
+                                    <div class="d-flex align-items-center">
+                                        <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center text-white fw-bold"
+                                            style="width: 48px; height: 48px;">SM</div>
+                                        <div class="ms-3">
+                                            <div class="fw-bold">Sarah Mitchell</div>
+                                            <div class="text-secondary small">Verified Customer</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="carousel-item">
+                            <div class="col-md-10 col-lg-8 mx-auto">
+                                <div class="testimonial-card p-4">
+                                    <div class="mb-3">
+                                        <span class="text-warning">★★★★★</span>
+                                    </div>
+                                    <p class="mb-4">"Amazing quality and customer service. The Immunity Boost Tea has
+                                        become a
+                                        daily staple in my wellness routine. Can't imagine life without it!"</p>
+                                    <div class="d-flex align-items-center">
+                                        <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center text-white fw-bold"
+                                            style="width: 48px; height: 48px;">JC</div>
+                                        <div class="ms-3">
+                                            <div class="fw-bold">James Chen</div>
+                                            <div class="text-secondary small">Verified Customer</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="carousel-item">
+                            <div class="col-md-10 col-lg-8 mx-auto">
+                                <div class="testimonial-card p-4">
+                                    <div class="mb-3">
+                                        <span class="text-warning">★★★★★</span>
+                                    </div>
+                                    <p class="mb-4">"I've tried many herbal products, but HerbalBloom stands out. The
+                                        Calendula
+                                        Salve healed my daughter's skin irritation in days. So grateful!"</p>
+                                    <div class="d-flex align-items-center">
+                                        <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center text-white fw-bold"
+                                            style="width: 48px; height: 48px;">EP</div>
+                                        <div class="ms-3">
+                                            <div class="fw-bold">Emily Parker</div>
+                                            <div class="text-secondary small">Verified Customer</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <button class="carousel-control-prev" type="button" data-bs-target="#testimonialCarousel"
+                        data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon d-none" aria-hidden="true"></span> <span class="material-symbols-outlined fs-1"
+                            style="color: var(--bs-primary);">arrow_back_ios_new</span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#testimonialCarousel"
+                        data-bs-slide="next">
+                        <span class="carousel-control-next-icon d-none" aria-hidden="true"></span> <span class="material-symbols-outlined fs-1"
+                            style="color: var(--bs-primary);">arrow_forward_ios</span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="py-5 bg-body">
+            <div class="container-xl py-5">
+                <div class="row">
+                    <div class="col-md-8 col-lg-6 mx-auto text-center">
+                        <span class="material-symbols-outlined fs-1" style="color: var(--bs-primary);">mail</span>
+                        <h2 class="display-5 fw-bold mb-3 mt-3">Stay in the Loop</h2>
+                        <p class="lead text-secondary mb-4">Get exclusive offers, wellness tips, and new product alerts
+                            straight to your inbox.</p>
+
+                        <form class="needs-validation subscribe-form" novalidate>
+                            <div class="input-group input-group-lg shadow-lg rounded-pill p-2"
+                                style="background-color: var(--bs-body-bg);">
+                                <input type="email" class="form-control rounded-pill" placeholder="Enter your email..."
+                                    required>
+                                <button class="btn btn-primary fw-bold px-sm-5" type="submit">Subscribe</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="py-5 border-top">
+        <div class="container-xl">
+            <div class="row g-4 mb-5 align-items-start">
+                <div class="col-lg-4 col-md-12">
+                    <a class="navbar-brand d-flex align-items-center fw-bold fs-4 mb-3" href="#">
+                        <span class="material-symbols-outlined fs-2 me-2" style="color: var(--bs-primary);">spa</span>
+                        HerbalBloom
+                    </a>
+                    <p class="text-secondary pe-lg-5">Bringing nature's healing power to your daily life with pure,
+                        potent, and plant-based remedies.</p>
+
+                    <h6 class="fw-bold mb-3 mt-4">Secured Payments</h6>
+                    <div class="d-flex gap-3 footer-payment-icons">
+                        <i class="bi bi-stripe" title="Stripe"></i>
+                        <i class="bi bi-paypal" title="PayPal"></i>
+                        <i class="bi bi-visa" title="Visa"></i>
+                        <i class="bi bi-mastercard" title="Mastercard"></i>
+                    </div>
+
+                </div>
+                <div class="col-lg-2 col-md-3 col-6">
+                    <h5 class="fw-bold mb-3">Shop</h5>
+                    <ul class="nav flex-column footer-links">
+                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-secondary">Tinctures</a></li>
+                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-secondary">Herbal Teas</a></li>
+                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-secondary">Balms & Salves</a>
+                        </li>
+                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-secondary">Supplements</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-3 col-6">
+                    <h5 class="fw-bold mb-3">Company</h5>
+                    <ul class="nav flex-column footer-links">
+                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-secondary">About Us</a></li>
+                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-secondary">Blog</a></li>
+                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-secondary">Our Process</a></li>
+                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-secondary">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-3 col-6">
+                    <h5 class="fw-bold mb-3">Support</h5>
+                    <ul class="nav flex-column footer-links">
+                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-secondary">FAQ</a></li>
+                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-secondary">Shipping & Returns</a>
+                        </li>
+                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-secondary">Privacy Policy</a>
+                        </li>
+                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-secondary">Terms of Service</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-3 col-6">
+                    <h5 class="fw-bold mb-3">Follow Us</h5>
+                    <div class="d-flex gap-3 footer-social-links">
+                        <a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+                        <a href="#" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+                        <a href="#" aria-label="Pinterest"><i class="bi bi-pinterest"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="bi bi-twitter-x"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex flex-column flex-sm-row justify-content-between pt-4 border-top">
+                <p class="text-secondary small">© 2025 HerbalBloom. All rights reserved.</p>
+                <p class="text-secondary small d-flex align-items-center">Made with <span
+                        class="material-symbols-outlined mx-1"
+                        style="font-size: 1em; color: var(--bs-primary);">favorite</span> for natural wellness.</p>
+            </div>
+        </div>
+    </footer>
+    <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content border-0 shadow-lg">
+                <div class="modal-header p-0 border-0">
+                    <input type="search" class="form-control" id="modalSearchInput"
+                        placeholder="Search for products..." autocomplete="off">
+                </div>
+                <div class="modal-body p-0">
+                    <div id="searchResultsList">
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script crossorigin="anonymous" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // --- 1. Define All Your Products ---
+        // In a real site, you'd fetch this. For now, we'll hardcode them.
+        const allProducts = [
+            { name: "Calming Lavender Tincture", url: "#", price: "$24.99", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDza6XrSQO9edNDCKzSm-MyqMMSIdRxCjTOVGNeSnEEzhFSFXBbe8jKuS7Gzb_2_U-cn8XgNpir3LqfzP1ZKZ8L9rX2PNg4F5K22Innoxb07GhVh190dy_V7eaY-t7lcXjQp4xwKzhvWp_v3xfZrLdjP4wjaaQxKpAKUKivWPbCvvuqXq3PZVx2kRW_R7afTeWheNKKvBCvRSMw1KFPmlVVPT97ns1Vlz3fM38UoQ0ne-cHMyYZ7GpBxOVykzYY77V_TImkggavpA70" },
+            { name: "Immunity Boost Tea", url: "#", price: "$18.50", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuC6aeoHebrK0jBrTFJX0mYLDpmKFXui2eI7huKr4E9nyxN81lCfBcGgy9jBRM2h9u2i5L8P96kY8XOMqB0BYpjpqDZ8X364BGRCCwoOEFSn0FFCpSPEfQF4jHXW8yD3shGZ42FxKR5P4CGOv1vIKTbi5q441zCMV0klj434gBle73z2O9H_T2qNOvQa6-I9TDBf4wdG-LXILS21EigTCAtNRKcrcEjbqb_UpM_wXmUeRCIBzpXN8FmlwXjHqlp8a3U3u3XO9apSuMNl" },
+            { name: "Soothing Mint Balm", url: "#", price: "$21.00", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuD_fKdvNKFWAXvjEQyGBU2Y81aE2Ehwqb-h52bFirB2PzeB6To3dgnJua0vEh-ngtAitKJguPDVfIFib0Y0xre6tSNMFkq2542pSq5jdev9GTCezBOjKUXdfCeeyAqpFgxYMZJE7FqN_p_rd4Gl8ikISKgP10gAjQcLNmjjcX6QRjaR7u70yJbKacQVdwI37kg0Jffwd975jL-Bq2mKh7mj-fiOejr5PtWZ9D4w1WikL4WSkALf2RY2QDRxAruA6odtTBkYTKaa2sFp" },
+            { name: "Calendula Healing Salve", url: "#", price: "$19.99", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBF7SoEz847A_d7_G1dtowdsFgfvfZ-IGTaNFfoqFQe9aWJVjGlSQzAXC60cWx_7AsAE6M9aIFUHng192GmpBsAIhTKEtbix2h3cWmw8wKIpWD2V_pxnfhnwz5S7yeP2bRE51OhsKdqOqZIoP13vZWxYWwRiQP-Jxf9hJ65prwcUHpfquAYJLlLa6038AW0GF6orpieAtURPK5LYLVCzMj9es4Gzc2UXsZPebb2vOMe7pfa14ngeLLSf8JFVVbKQW1UiaRGM0fwr-7y" },
+            { name: "Energizing Ginseng Elixir", url: "#", price: "$29.99", img: "http://googleusercontent.com/profile/picture/6" },
+            { name: "Elderberry Defense Syrup", url: "#", price: "$26.50", img: "http://googleusercontent.com/profile/picture/7" },
+            { name: "Relax & Unwind Tea", url: "#", price: "$17.00", img: "http://googleusercontent.com/profile/picture/8" },
+            { name: "Arnica Muscle Relief Rub", url: "#", price: "$22.99", img: "http://googleusercontent.com/profile/picture/9" }
+        ];
+
+        // --- 2. Get References to HTML Elements ---
+        const searchModal = document.getElementById('searchModal');
+        const modalSearchInput = document.getElementById('modalSearchInput');
+        const searchResultsList = document.getElementById('searchResultsList');
+
+        // --- 3. Auto-focus the input when the modal opens ---
+        searchModal.addEventListener('shown.bs.modal', () => {
+            modalSearchInput.focus();
+        });
+
+        // --- 4. Listen for typing in the search bar ---
+        modalSearchInput.addEventListener('keyup', () => {
+            const searchTerm = modalSearchInput.value.trim().toLowerCase();
+
+            // If the search bar is empty, hide the results and stop
+            if (searchTerm.length === 0) {
+                searchResultsList.style.display = 'none';
+                return;
+            }
+
+            // Filter the products based on the search term
+            const filteredProducts = allProducts.filter(product => {
+                return product.name.toLowerCase().includes(searchTerm);
+            });
+
+            // --- 5. Generate and Display the Results ---
+
+            // If no products match, show a message
+            if (filteredProducts.length === 0) {
+                searchResultsList.innerHTML = '<p class="text-center text-secondary p-4 mb-0">No products found.</p>';
+            } else {
+                // Otherwise, build the HTML for each result
+                searchResultsList.innerHTML = filteredProducts.map(product => {
+                    return `
+                        <a href="${product.url}" class="search-result-item">
+                            <img src="${product.img}" alt="${product.name}">
+                            <div>
+                                <div class="fw-bold">${product.name}</div>
+                                <div class="text-secondary small">${product.price}</div>
+                            </div>
+                        </a>
+                    `;
+                }).join('');
+            }
+
+            // Finally, show (toggle) the results container
+            searchResultsList.style.display = 'block';
+        });
+
+        // --- 6. Clear input when modal is hidden ---
+        searchModal.addEventListener('hidden.bs.modal', () => {
+            modalSearchInput.value = '';
+            searchResultsList.style.display = 'none';
+            searchResultsList.innerHTML = '';
+        });
+    </script>
+    </body>
+
+</html>
